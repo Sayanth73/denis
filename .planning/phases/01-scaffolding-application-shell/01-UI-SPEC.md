@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: scaffolding-application-shell
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none (initialized during Phase 1 execution — see Design System)
 created: 2026-05-04
+reviewed_at: 2026-05-04
 ---
 
 # Phase 1 — UI Design Contract
