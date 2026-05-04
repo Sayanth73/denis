@@ -191,8 +191,22 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
         customers: state.customers,
         deliveries: state.deliveries,
       }),
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => (state, error) => {
         // Déclenché après que les données persistées sont remontées dans le store.
+        if (error) {
+          // Données persistées corrompues — purger la clé pour que le prochain
+          // tick retombe dans seedIfEmpty() avec un état initial propre.
+          console.warn(
+            "[tracekebab] rehydration failed, clearing corrupt persisted state",
+            error,
+          );
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem(STORAGE_KEY);
+          }
+          // On bascule quand même le drapeau pour débloquer <SeedProvider>.
+          useTraceabilityStore.setState({ hasHydrated: true });
+          return;
+        }
         state?.setHasHydrated(true);
       },
     },
