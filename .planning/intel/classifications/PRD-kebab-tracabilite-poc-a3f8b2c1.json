@@ -1,0 +1,23 @@
+{
+  "source_path": "/Users/sayanth/Desktop/viande/PRD_kebab_tracabilite_poc.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "PRD — POC \"TraceKebab\"",
+  "summary": "Proof of concept requirements for a clickable demo app tracing kebab meat from raw materials through finished spits to restaurant deliveries.",
+  "scope": [
+    "matieres premieres",
+    "recettes",
+    "ordres de fabrication",
+    "broches finies",
+    "livraisons",
+    "clients restaurants",
+    "tracabilite",
+    "tableau de bord",
+    "export PDF tracabilite"
+  ],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

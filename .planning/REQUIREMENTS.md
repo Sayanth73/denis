@@ -1,0 +1,131 @@
+# Requirements: TraceKebab
+
+**Defined:** 2026-05-04
+**Milestone:** v0.1 — POC traceability demo
+**Core Value:** Given a supplier lot number or an internal broche lot number, the user can in one click visualize the entire chain (supplier → production → client) and export it as a PDF dossier.
+
+Source of truth: each requirement was synthesized from `/Users/sayanth/Desktop/viande/PRD_kebab_tracabilite_poc.md` (§5 Écrans à implémenter, §6 Détails UX, §9 Critères de succès). Full requirement bodies with acceptance criteria are preserved verbatim in `.planning/intel/requirements.md`.
+
+## v0.1 Requirements
+
+Requirements for the POC traceability demo. Each maps to exactly one roadmap phase; cross-cutting requirements are owned primarily by the polish phase but implemented inline as features ship.
+
+### Layout & Navigation
+
+- [ ] **REQ-layout-shell** — Application shell with fixed left sidebar (Tableau de bord, Matières premières, Production, Livraisons, Clients, Traçabilité), header with current page title, and a discrete "Réinitialiser démo" button in the top-right that resets `localStorage` to seed state. Active route visually indicated.
+
+### Dashboard
+
+- [ ] **REQ-dashboard** — Route `/` shows 4 KPI cards (Matières premières en stock — red alert if any DLC <3 days; Broches en stock with total weight; Production cette semaine; Livraisons cette semaine with estimated value) plus two columns: alerts (near-DLC, low stock, broches not delivered >3 days) and a 5-item recent activity timeline.
+
+### Raw Materials
+
+- [ ] **REQ-raw-materials-list** — Route `/matieres-premieres` displays a sortable table of all received lots with columns Type, Nom, Fournisseur, N° lot fournisseur, Quantité restante / reçue, DLC (color badge), Statut. Empty-state copy: "Aucune matière première en stock — réceptionnez votre premier lot".
+- [ ] **REQ-raw-material-receive** — From `/matieres-premieres`, a "+ Réceptionner un lot" button opens a Dialog with required fields (Type select, Nom, Fournisseur with auto-complete on existing suppliers, N° de lot fournisseur, Quantité reçue en kg, Date de réception, DLC, Température de réception en °C) and an optional Certificat sanitaire field. DLC must be strictly later than Date de réception. On confirm, a new RawMaterial is persisted and a success toast shown.
+
+### Production
+
+- [ ] **REQ-recipes-readonly** — Within `/production`, the "Recettes" tab shows the 3 seeded recipes ("Broche standard 25 kg", "Broche poulet 20 kg", "Broche premium agneau 15 kg") with their composition (typeMatiere + pourcentage rows summing to 100%). No create/edit/delete affordances.
+- [ ] **REQ-production-orders-list** — Within `/production`, the "Ordres de fabrication" tab lists every production order with columns Date, Recette, Nombre de broches, Poids total, Lots consommés (linkable into traçabilité or lot detail).
+- [ ] **REQ-production-wizard** — Creating a production order goes through a 3-step wizard: (1) choose recipe and number of broches; (2) for each ingredient the system computes the total required quantity and proposes available lots of that type sorted by DLC ascending (FIFO), splittable across one or more lots, with real-time "manquant : X kg" indicator; (3) récapitulatif with "Confirmer la production". On confirm: decrement `quantiteRestante` on every consumed lot, create N FinishedProduct broches with `TK-AAAA-MMJJ-NNN` lot numbers and `dlc = production date + 5 days`, create the ProductionOrder linking inputs to outputs, and show a success toast linking to the new production's traçabilité view.
+
+### Deliveries
+
+- [ ] **REQ-deliveries-list** — Route `/livraisons` lists all deliveries with columns Date, Client, Nombre de broches, Poids total, Statut.
+- [ ] **REQ-delivery-create** — From `/livraisons`, a "+ Nouvelle livraison" button opens a Dialog with fields Client (searchable select), Date de livraison, Broches en stock (multi-select with checkboxes showing n° lot interne, poids, DLC), Notes (optional). Two-state action "Préparer la livraison" then "Marquer comme livrée". On "Marquer comme livrée", broches transition `en_stock` → `livree`, the Delivery is created, and broches reference the Delivery via `livraisonId`.
+
+### Clients
+
+- [ ] **REQ-clients-crud** — Route `/clients` provides a clients table with "+ Nouveau client" creation, plus edit and delete affordances on each row.
+- [ ] **REQ-client-detail-history** — Clicking a client opens a detail view listing every Delivery for the client; each delivery is expandable to reveal its broches; from any broche the upstream raw material lots are reachable, exposing the full traçabilité chain from the client view.
+
+### Traçabilité (killer feature)
+
+- [ ] **REQ-tracabilite-search** — Route `/tracabilite` provides a prominent search bar (placeholder "Rechercher un numéro de lot (matière première ou broche finie)...") accepting either a supplier lot number or an internal broche lot number, plus two example shortcut buttons above the bar that pre-fill a seeded supplier lot and a seeded internal broche lot respectively.
+- [ ] **REQ-tracabilite-upstream** — Searching by a supplier lot number renders three vertically stacked sections with visual connections: (1) Matière première card with all lot info — fournisseur, certificat sanitaire, dates, température; (2) Ordres de fabrication concernés with quantity used per order; (3) Clients impactés with delivery date and internal broche lot number. "Exporter dossier traçabilité (PDF)" button visible top-right.
+- [ ] **REQ-tracabilite-downstream** — Searching by an internal broche lot number renders the inverse three-section view: (1) Broche finie card — n° lot interne, date de production, poids, DLC, client livré + date de livraison; (2) Ordre de fabrication with the recipe used; (3) Matières premières utilisées listing every supplier lot that contributed to the broche. "Exporter dossier traçabilité (PDF)" button visible top-right.
+- [ ] **REQ-tracabilite-pdf-export** — From either Cas 1 or Cas 2 result view, the user can export the dossier as PDF via `react-to-print` or `jsPDF`. Output need not be visually polished but must be generated successfully and contain the same information as the on-screen view.
+
+### Cross-cutting UX
+
+- [ ] **REQ-dlc-color-coding** — Wherever a DLC is shown as a badge, color reflects time-to-DLC: green if >5 days, orange if 2-5 days, red if <2 days, grey if expired.
+- [ ] **REQ-toasts-on-mutations** — Every action that creates or modifies data shows a `sonner` toast. Required for: receive raw material, create production order, create delivery, mark delivery as livrée, create/edit/delete client, reset démo.
+- [ ] **REQ-confirmations-on-critical-actions** — Critical actions require explicit confirmation: production order creation (the wizard step 3 satisfies this), delivery confirmation ("Marquer comme livrée"), démo reset.
+- [ ] **REQ-empty-states** — Every list/table renders a contextual empty state instead of an empty grid. Applies to matières premières, ordres de fabrication, livraisons, clients, traçabilité (no result), dashboard activity feed.
+- [ ] **REQ-no-pagination** — Tables do not paginate. Expected dataset size is 20-30 rows max per table; full dataset rendered.
+
+### End-to-End Acceptance
+
+- [ ] **REQ-success-criteria-demo-flow** — The POC is successful only if the §9 5-step flow executes in under 5 minutes: (1) receive a new raw material lot of viande de bœuf; (2) launch a production order that consumes that lot and produces 4 broches; (3) deliver 2 of those broches to a kebab restaurant client; (4) run a traçabilité search on the original supplier lot number and visually see fournisseur → production → client final; (5) export the traçabilité dossier as PDF.
+
+## v1+ Requirements (Deferred)
+
+The PRD §8 explicitly excludes the following from v0.1. They are not yet committed scope and would require a new milestone to plan:
+
+- Authentication, user accounts, roles
+- Recipe creation/editing flow (recipes are read-only in v0.1)
+- Backend, database, external API
+- Mobile / responsive
+- Dark mode
+- Multi-language UI
+- Invoicing, QR-bills, accounting, pricing, margins, quotes
+- Email / SMS notifications
+- Unit / integration / e2e tests
+
+## Out of Scope
+
+Explicit exclusions for v0.1, with reasons (from PRD §8 and project type constraints).
+
+| Feature | Reason |
+|---------|--------|
+| Authentication / user accounts / roles | POC is a single-user demo; auth would consume time without informing the concept. |
+| Backend / Next.js API routes / database | Imposed: client-only architecture via Zustand + localStorage. |
+| Recipe creation/editing flow | The 3 seeded recipes are read-only in v0.1; CRUD on recipes does not advance the traceability story. |
+| Mobile / responsive layouts | Demo is shown on a laptop; responsive engineering is wasted effort. |
+| Dark mode | Adds visual complexity without informing the value prop. |
+| Multi-language UI | French exclusively; the prospect is in Suisse romande. |
+| Invoicing / QR-bill / accounting | Not part of the traceability story. |
+| Pricing / margins / quotes | Not part of the traceability story. |
+| Email / SMS notifications | No backend, no notification infrastructure. |
+| Unit / integration / e2e tests | POC quality bar is "the demo runs", not "regression-safe". |
+| Real-time updates / multi-user collaboration | Single-tab, single-user demo. |
+| Pagination on tables | Dataset capped at 20-30 rows; pagination is overkill. |
+
+## Traceability
+
+Each requirement maps to exactly one phase. Cross-cutting requirements are owned by the polish phase (Phase 9) but implemented inline as features ship in earlier phases. The polish phase is the one that explicitly verifies them across the whole app.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-layout-shell | Phase 1 | Pending |
+| REQ-raw-materials-list | Phase 3 | Pending |
+| REQ-raw-material-receive | Phase 3 | Pending |
+| REQ-recipes-readonly | Phase 4 | Pending |
+| REQ-production-orders-list | Phase 4 | Pending |
+| REQ-production-wizard | Phase 4 | Pending |
+| REQ-deliveries-list | Phase 5 | Pending |
+| REQ-delivery-create | Phase 5 | Pending |
+| REQ-clients-crud | Phase 6 | Pending |
+| REQ-client-detail-history | Phase 6 | Pending |
+| REQ-tracabilite-search | Phase 7 | Pending |
+| REQ-tracabilite-upstream | Phase 7 | Pending |
+| REQ-tracabilite-downstream | Phase 7 | Pending |
+| REQ-tracabilite-pdf-export | Phase 7 | Pending |
+| REQ-dashboard | Phase 8 | Pending |
+| REQ-dlc-color-coding | Phase 9 | Pending |
+| REQ-toasts-on-mutations | Phase 9 | Pending |
+| REQ-confirmations-on-critical-actions | Phase 9 | Pending |
+| REQ-empty-states | Phase 9 | Pending |
+| REQ-no-pagination | Phase 9 | Pending |
+| REQ-success-criteria-demo-flow | Phase 9 | Pending |
+
+**Note on Phase 2 (Data model + Zustand store + seed data):** Phase 2 has no direct REQ-* identifier because it is a foundational enabler — it implements the constraints `CON-data-model`, `CON-internal-lot-format`, `CON-dlc-default-rule`, `CON-state-persistence`, `CON-no-backend`, and `CON-seed-on-empty-storage` from `.planning/intel/constraints.md`. Without it, no subsequent feature requirement can be implemented. Its success criteria are observable at the browser-storage level (state persists across refresh, seed runs on empty storage).
+
+**Coverage:**
+- v0.1 requirements: 21 total
+- Mapped to phases: 21
+- Unmapped: 0 ✓
+
+---
+*Requirements defined: 2026-05-04*
+*Last updated: 2026-05-04 after intel synthesis (new-project-from-ingest bootstrap)*
