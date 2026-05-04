@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { Toaster } from "@/components/ui/sonner";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { SeedProvider } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default function RootLayout({
         <Sidebar />
         <div className="pl-60">
           <Header />
-          <main className="px-6 py-6">{children}</main>
+          <main className="px-6 py-6">
+            <SeedProvider>{children}</SeedProvider>
+          </main>
         </div>
         <Toaster />
       </body>
