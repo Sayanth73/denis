@@ -181,7 +181,19 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
     }),
     {
       name: STORAGE_KEY,
+      // Version du schéma persisté ; incrémenter à chaque changement de forme
+      // d'un type du domaine pour forcer migrate() à s'exécuter.
+      version: 1,
       storage: createJSONStorage(() => localStorage),
+      migrate: (persistedState, version) => {
+        // v1 est la baseline ; les phases ultérieures ajouteront des cas ici.
+        if (version === 1) {
+          return persistedState as TraceabilityStore;
+        }
+        // Version inconnue → renvoyer undefined pour que persist retombe sur
+        // l'état initial vide et que seedIfEmpty() réamorce proprement.
+        return undefined;
+      },
       // Ne persiste que les données — jamais le drapeau de réhydratation.
       partialize: (state) => ({
         rawMaterials: state.rawMaterials,
