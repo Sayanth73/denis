@@ -35,12 +35,14 @@ export const NAV_LABELS: Record<string, string> = Object.fromEntries(
 export function getActiveLabel(pathname: string): string {
   if (pathname === "/") return NAV_LABELS["/"];
   const match = NAV_ITEMS.find(
-    (item) => item.route !== "/" && pathname.startsWith(item.route),
+    (item) =>
+      item.route !== "/" &&
+      (pathname === item.route || pathname.startsWith(item.route + "/")),
   );
   return match?.label ?? "TraceKebab";
 }
 
 export function isActiveRoute(pathname: string, route: string): boolean {
   if (route === "/") return pathname === "/";
-  return pathname.startsWith(route);
+  return pathname === route || pathname.startsWith(route + "/");
 }
