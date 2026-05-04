@@ -5,6 +5,9 @@
  */
 
 export function generateLotNumber(date: Date, sequence: number): string {
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+    throw new Error("Date invalide pour le numéro de lot");
+  }
   if (!Number.isInteger(sequence) || sequence < 1 || sequence > 999) {
     throw new RangeError(
       `generateLotNumber: sequence must be an integer in [1, 999], got ${sequence}`,
