@@ -38,7 +38,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The user can click any sidebar entry and the active route is visually indicated; the header shows the current page title.
   4. The header carries a discrete "Réinitialiser démo" button in the top-right (wired to a no-op stub at this phase; full reset behavior arrives in Phase 2).
   5. The visual aesthetic matches a sober B2B SaaS look (shadcn neutrals, blue primary CTAs) — no emojis except navigation icons.
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 01-01-PLAN.md — Bootstrap Next.js 14 + Tailwind + shadcn (New York / neutral) + Button & Sonner + Geist fonts + theme tokens (no shell UI yet).
+- [ ] 01-02-PLAN.md — Build Sidebar / Header / ResetButton / PlaceholderPage + lib/nav.ts, wire shell into root layout, create six route stubs, human-verify checkpoint.
 **UI hint**: yes
 
 ### Phase 2: Domain Model, Zustand Store & Seed Data
@@ -51,7 +53,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. After any browser refresh, the previously visible state is intact (Zustand persist → localStorage works).
   4. Clicking the header "Réinitialiser démo" button (with confirmation) wipes localStorage and re-seeds, and a toast confirms the reset.
   5. Helper functions exist for: generating internal lot numbers in format `TK-AAAA-MMJJ-NNN`, computing broche DLC as `dateProduction + 5 days`, and computing DLC color (green/orange/red/grey).
-**Plans**: TBD
+**Plans**: 1 plan
+- [ ] 02-01-PLAN.md — Domain types + seed fixtures + Zustand persist store + SeedProvider lifecycle + amended ResetButton with shadcn AlertDialog destructive flow.
 
 ### Phase 3: Matières Premières Screen
 **Goal**: The user can view all raw material lots in stock and receive new lots via a validated dialog.
@@ -63,7 +66,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Clicking "+ Réceptionner un lot" opens a Dialog with all required fields (Type select, Nom, Fournisseur with auto-complete, N° lot fournisseur, Quantité reçue en kg, Date de réception defaulting to today, DLC, Température °C) and an optional Certificat sanitaire field; the form rejects submission unless DLC is strictly later than Date de réception.
   4. On confirm, the new RawMaterial appears in the table without a refresh, the dialog closes, and a sonner toast confirms the reception.
   5. With localStorage cleared after seeding, removing all rows shows the empty state "Aucune matière première en stock — réceptionnez votre premier lot".
-**Plans**: TBD
+**Plans**: 2 plans
+- [x] 03-01-PLAN.md — Install shadcn primitives (table, dialog, input, select, label, form, badge, calendar, popover, command) + react-hook-form/zod/date-fns peer-deps; build reusable DlcBadge, EmptyState, DatePicker, Combobox + lib/raw-materials.ts helpers.
+- [ ] 03-02-PLAN.md — Build sortable RawMaterialsTable + ReceptionDialog (9-field react-hook-form + zod schema with locked French validation) + wire app/matieres-premieres/page.tsx with header CTA and empty-state fallback; human-verify checkpoint.
 **UI hint**: yes
 
 ### Phase 4: Production Screen
@@ -151,9 +156,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Scaffolding & Application Shell | 0/TBD | Not started | - |
-| 2. Domain Model, Zustand Store & Seed Data | 0/TBD | Not started | - |
-| 3. Matières Premières Screen | 0/TBD | Not started | - |
+| 1. Scaffolding & Application Shell | 0/2 | Planned | - |
+| 2. Domain Model, Zustand Store & Seed Data | 0/1 | Planned | - |
+| 3. Matières Premières Screen | 1/2 | In progress | - |
 | 4. Production Screen | 0/TBD | Not started | - |
 | 5. Livraisons Screen | 0/TBD | Not started | - |
 | 6. Clients Screen | 0/TBD | Not started | - |

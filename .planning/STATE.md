@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** Given a supplier lot number or an internal broche lot number, the user can in one click visualize the entire chain (supplier → production → client) and export it as a PDF dossier.
-**Current focus:** Phase 2 — Domain Model, Zustand Store & Seed Data
+**Current focus:** Phase 3 — Matières Premières Screen
 
 ## Current Position
 
-Phase: 2 of 9 (Domain Model, Zustand Store & Seed Data)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-05-04 — Phase 1 complete (user-approved, code review clean after 3 fixes, UI review 20/24 with 3 drifts deferred to Phase 9)
+Phase: 3 of 9 (Matières Premières Screen)
+Plan: 1 of 2 in current phase (Wave 1 complete — shadcn install + reusable components)
+Status: In progress (Wave 2 next: assemble table + reception dialog)
+Last activity: 2026-05-04 — 03-01 complete (Wave 1)
 
-Progress: [█░░░░░░░░░] 11%
+Progress: [███░░░░░░░] 28%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1 (this session — prior plans 01-01, 01-02, 02-01 not back-filled)
+- Average duration: 2m 28s
+- Total execution time: <0.1 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| — | — | — | — |
+| 3     | 1     | 2m 28s | 2m 28s   |
 
 **Recent Trend:**
-- Last 5 plans: —
-- Trend: —
+- Last 5 plans: 03-01 (2m 28s)
+- Trend: First measured plan in this session.
 
 *Updated after each plan completion.*
 
@@ -67,9 +67,10 @@ Items acknowledged and carried forward from previous milestone close:
 | UI polish | Sidebar active indicator is a 24px pip (top-1.5/bottom-1.5/rounded-full) instead of full-row 2px strip per UI-SPEC | Deferred to Phase 9 | 2026-05-04 |
 | UI polish | Pressed-state class missing on nav items + ghost button (active:bg-zinc-200) | Deferred to Phase 9 | 2026-05-04 |
 | UI minor drift | --destructive HSL is brighter than red-600 spec; sonner shadow-lg vs shadow-md; Brand role missing from §Typography table | Deferred to Phase 9 | 2026-05-04 |
+| UI polish | AlertDialog ships text-lg title (Phase 1 locks text-xl) and rounded-lg/shadow-lg (locked rounded-md/shadow-md) — affects every dialog in Phases 3/5/6 | Deferred to Phase 9 | 2026-05-04 |
 
 ## Session Continuity
 
 Last session: 2026-05-04
-Stopped at: Phase 1 complete (autonomous run). Phase 2 CONTEXT.md and UI-SPEC.md ready, beginning Phase 2 plan-phase.
-Resume file: .planning/phases/02-domain-model-zustand-store-seed-data/02-CONTEXT.md
+Stopped at: Completed 03-01-PLAN.md (Wave 1 — shadcn install + reusable components).
+Resume file: .planning/phases/03-matieres-premieres-screen/03-02-PLAN.md
