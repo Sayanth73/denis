@@ -1,20 +1,8 @@
 "use client";
 
-import { Home, Package, Factory, Truck, Users, Search } from "lucide-react";
-import { NAV_ITEMS, type NavIconName } from "@/lib/nav";
+import { NAV_ITEMS } from "@/lib/nav";
+import { NAV_ICONS } from "@/lib/nav-icons";
 import { NavItem } from "@/components/layout/nav-item";
-
-const ICONS: Record<
-  NavIconName,
-  React.ComponentType<{ className?: string; size?: number | string }>
-> = {
-  Home,
-  Package,
-  Factory,
-  Truck,
-  Users,
-  Search,
-};
 
 export function Sidebar() {
   return (
@@ -26,7 +14,7 @@ export function Sidebar() {
       {/* Nav list */}
       <nav className="flex flex-col gap-1 px-2 py-4">
         {NAV_ITEMS.map((item) => {
-          const Icon = ICONS[item.iconName];
+          const Icon = NAV_ICONS[item.iconName];
           return (
             <NavItem
               key={item.route}
