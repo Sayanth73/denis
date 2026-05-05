@@ -154,7 +154,7 @@ export default function ClientDetailPage() {
                   Prix par défaut (CHF/kg)
                 </TableHead>
                 <TableHead className="text-sm font-medium text-muted-foreground py-3 px-3 border-b border-border text-right">
-                  Override client (CHF/kg)
+                  Prix spécial client (CHF/kg HT)
                 </TableHead>
               </TableRow>
             </TableHeader>
