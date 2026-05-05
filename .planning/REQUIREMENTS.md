@@ -10,7 +10,7 @@
 
 - [x] **REQ-v3-prix-recette-defaut** — Each recipe has a configurable default price per kg (CHF HT). A "Grille tarifaire" section in Paramètres lists the 3 seeded recipes with their current default prices, editable via a form. Migration sets all existing recipes to 25 CHF/kg (the previous flat rate).
 
-- [ ] **REQ-v3-prix-client-override** — On a client's detail page, a "Tarifs spéciaux" section shows a table with one row per recipe: recipe name, default price (read-only), and an optional override price (CHF/kg HT). Empty or absent override means the client pays the recipe default. Changes are saved on form submit with a toast.
+- [x] **REQ-v3-prix-client-override** — On a client's detail page, a "Tarifs spéciaux" section shows a table with one row per recipe: recipe name, default price (read-only), and an optional override price (CHF/kg HT). Empty or absent override means the client pays the recipe default. Changes are saved on form submit with a toast.
 
 - [x] **REQ-v3-facture-prix-auto** — Auto-generated factures on delivery use the correct price per ligne: client's override for that recipe if set, otherwise the recipe's default price. The invoice line `prixUnitaireHT` reflects the actual agreed rate — no hardcoded 25 CHF/kg anywhere in `buildFacture`.
 
@@ -62,7 +62,7 @@ All v0.1 requirements shipped in milestone v0.1 (completed 2026-05-05).
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | REQ-v3-prix-recette-defaut | Phase 14 | Complete |
-| REQ-v3-prix-client-override | Phase 15 | Pending |
+| REQ-v3-prix-client-override | Phase 15 | Complete |
 | REQ-v3-facture-prix-auto | Phase 14 | Complete |
 
 **Coverage:**
