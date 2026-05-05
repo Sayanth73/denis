@@ -56,13 +56,26 @@ v0.2 addresses three gaps discovered during the v0.1 demo review: (1) broche rec
   6. The left sidebar includes a "Factures" entry (with `ReceiptIcon` from lucide-react) below "Livraisons".
 **Plans**: TBD
 
+### Phase 13: Suivi des paiements
+**Goal**: Chaque facture affiche clairement si elle est payée ou en attente, avec distinction entre paiement à la livraison (cash/CB) et virement différé. Le tableau de bord expose un KPI "Factures impayées" avec le montant total TTC en attente. Une logique de retard visuelle signale les factures non payées au-delà du délai paramétrable.
+**Depends on**: Phase 12
+**Requirements**: REQ-v3-suivi-paiements
+**Success Criteria** (what must be TRUE):
+  1. Le type `Facture` inclut un champ `paiement: { statut: "en_attente" | "payee_livraison" | "payee_virement"; date?: string }`.
+  2. La liste `/factures` affiche un badge coloré par statut et une colonne date de paiement.
+  3. Le détail `/factures/[id]` propose deux boutons distincts — "Payé à la livraison" et "Virement reçu" — qui passent la facture au statut correspondant.
+  4. Une facture est considérée "en retard" si non payée après N jours (paramètre configurable dans `/parametres`, défaut 30 j). Les factures en retard affichent un badge "En retard".
+  5. Le tableau de bord expose une KPI card "Factures impayées" avec le total TTC en attente et le nombre de factures en retard.
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 10 → 11 → 12
+Phases execute in numeric order: 10 → 11 → 12 → 13
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 10. Broche Recipe Display | 1/1 | Complete   | 2026-05-05 |
-| 11. Stock Broches Finies Screen | 0/TBD | Not started | - |
-| 12. Auto-Factures | 0/TBD | Not started | - |
+| 11. Stock Broches Finies Screen | 1/1 | Complete   | 2026-05-05 |
+| 12. Auto-Factures | 1/1 | Complete   | 2026-05-05 |
+| 13. Suivi des paiements | 0/TBD | Not started | - |
