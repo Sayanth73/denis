@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card } from "@/components/ui/card";
 
 type KpiCardProps = {
@@ -5,11 +6,12 @@ type KpiCardProps = {
   value: string | number;
   subLabel: string;
   alert?: string; // rendered as red badge when truthy
+  href?: string;  // when provided, wraps card in a Next.js Link
 };
 
-export function KpiCard({ label, value, subLabel, alert }: KpiCardProps) {
-  return (
-    <Card className="p-5">
+export function KpiCard({ label, value, subLabel, alert, href }: KpiCardProps) {
+  const card = (
+    <Card className={href ? "p-5 hover:bg-accent transition-colors cursor-pointer" : "p-5"}>
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">
         {label}
       </p>
@@ -26,4 +28,12 @@ export function KpiCard({ label, value, subLabel, alert }: KpiCardProps) {
       <p className="text-sm text-muted-foreground">{subLabel}</p>
     </Card>
   );
+  if (href) {
+    return (
+      <Link href={href} className="block">
+        {card}
+      </Link>
+    );
+  }
+  return card;
 }

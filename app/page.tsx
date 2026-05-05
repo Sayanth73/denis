@@ -75,6 +75,7 @@ export default function DashboardPage() {
           label="Broches en stock"
           value={brochesEnStockCount}
           subLabel={`${brochesWeight} kg total`}
+          href="/stock-broches"
         />
         <KpiCard
           label="Production cette semaine"
