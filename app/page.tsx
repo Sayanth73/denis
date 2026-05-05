@@ -12,10 +12,10 @@ import {
   countBrochesEnStock,
   sumBrochesWeight,
   countProducedThisWeek,
-  countDeliveriesThisWeek,
-  countBrochesLivreesThisWeek,
   getAlertes,
   getRecentActivity,
+  sumFacturesEnAttente,
+  countFacturesEnRetard,
 } from "@/lib/dashboard";
 
 export default function DashboardPage() {
@@ -25,6 +25,8 @@ export default function DashboardPage() {
   const customers        = useTraceabilityStore((s) => s.customers);
   const deliveries       = useTraceabilityStore((s) => s.deliveries);
   const recipes          = useTraceabilityStore((s) => s.recipes);
+  const factures         = useTraceabilityStore((s) => s.factures);
+  const settings         = useTraceabilityStore((s) => s.settings);
   const hasHydrated      = useTraceabilityStore((s) => s.hasHydrated);
 
   // Hydration guard — matches Phase 3/4/5/6 pattern exactly.
@@ -51,8 +53,8 @@ export default function DashboardPage() {
   const brochesEnStockCount    = countBrochesEnStock(finishedProducts);
   const brochesWeight          = sumBrochesWeight(finishedProducts);
   const producedThisWeek       = countProducedThisWeek(finishedProducts, today);
-  const deliveriesThisWeek     = countDeliveriesThisWeek(deliveries, today);
-  const brochesLivreesThisWeek = countBrochesLivreesThisWeek(deliveries, today);
+  const totalEnAttente         = sumFacturesEnAttente(factures);
+  const enRetardCount          = countFacturesEnRetard(factures, settings, today);
 
   // ─── Lower column data ─────────────────────────────────────────────────────
   const alertes  = getAlertes({ rawMaterials, finishedProducts }, today);
@@ -83,9 +85,18 @@ export default function DashboardPage() {
           subLabel={`${producedThisWeek} broches produites`}
         />
         <KpiCard
-          label="Livraisons cette semaine"
-          value={deliveriesThisWeek}
-          subLabel={`${brochesLivreesThisWeek} broches livrées`}
+          label="Factures impayées"
+          value={
+            totalEnAttente === 0
+              ? "0.00 CHF"
+              : totalEnAttente.toLocaleString("fr-CH", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + " CHF"
+          }
+          subLabel={enRetardCount > 0 ? `${enRetardCount} en retard` : "Toutes à jour"}
+          alert={enRetardCount > 0 ? `${enRetardCount} en retard` : undefined}
+          href="/factures"
         />
       </div>
 
