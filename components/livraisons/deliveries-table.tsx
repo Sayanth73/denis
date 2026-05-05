@@ -30,9 +30,8 @@ import {
   getCustomerById,
 } from "@/lib/deliveries";
 import { useTraceabilityStore } from "@/lib/store";
-import { getRecipeForBroche } from "@/lib/finished-products";
-import { generateFactureNumber } from "@/lib/factures";
-import type { Delivery, FinishedProduct, Customer, FactureLigne } from "@/lib/types";
+import { buildFacture } from "@/lib/facture-builder";
+import type { Delivery, FinishedProduct, Customer } from "@/lib/types";
 
 type DeliveriesTableProps = {
   deliveries: Delivery[];
@@ -73,38 +72,21 @@ export function DeliveriesTable({
     }
     store.updateDelivery(pendingDelivery.id, { statut: "livree" });
 
-    // Auto-generate facture
-    const today = new Date().toISOString().slice(0, 10);
-    const { finishedProducts, productionOrders, recipes, factures } = store;
-    const lignes: FactureLigne[] = pendingDelivery.brochesLivrees.map((fpId) => {
-      const fp = finishedProducts.find((p) => p.id === fpId);
-      const recipe = fp ? getRecipeForBroche(fp, productionOrders, recipes) : null;
-      const poidsKg = fp?.poids ?? 0;
-      const prixUnitaireHT = 25;
-      return {
-        brocheId: fpId,
-        numeroLot: fp?.numeroLotInterne ?? "",
-        recetteNom: recipe?.nom ?? "—",
-        poidsKg,
-        prixUnitaireHT,
-        montantHT: poidsKg * prixUnitaireHT,
-      };
-    });
-    const totalHT = lignes.reduce((sum, l) => sum + l.montantHT, 0);
-    const tva = 0.081;
-    const totalTTC = totalHT * (1 + tva);
-    const numeroFacture = generateFactureNumber(today, factures.length + 1);
-    store.addFacture({
-      id: crypto.randomUUID(),
-      numeroFacture,
-      livraisonId: pendingDelivery.id,
-      clientId: pendingDelivery.customerId,
-      dateFacture: today,
-      lignes,
-      totalHT,
-      tva,
-      totalTTC,
-    });
+    // Auto-generate facture via buildFacture (resolves per-client pricing)
+    const { finishedProducts, productionOrders, recipes, factures, customers } = store;
+    const customer = customers.find((c) => c.id === pendingDelivery.customerId)!;
+    const facture = buildFacture(
+      pendingDelivery.id,
+      pendingDelivery.customerId,
+      pendingDelivery.brochesLivrees,
+      finishedProducts,
+      productionOrders,
+      recipes,
+      customer,
+      factures.length,
+    );
+    store.addFacture(facture);
+    const numeroFacture = facture.numeroFacture;
 
     toast.success(`Livraison confirmée — Facture ${numeroFacture} générée`);
     setPendingDeliveryId(null);

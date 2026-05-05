@@ -130,6 +130,7 @@ export function buildSeed(now: Date = new Date()): SeedData {
         { typeMatiere: "agneau", pourcentage: 30 },
         { typeMatiere: "epices", pourcentage: 10 },
       ],
+      prixParDefautHT: 25,
     },
     {
       id: crypto.randomUUID(),
@@ -140,6 +141,7 @@ export function buildSeed(now: Date = new Date()): SeedData {
         { typeMatiere: "marinade", pourcentage: 15 },
         { typeMatiere: "epices", pourcentage: 5 },
       ],
+      prixParDefautHT: 25,
     },
     {
       id: crypto.randomUUID(),
@@ -150,20 +152,21 @@ export function buildSeed(now: Date = new Date()): SeedData {
         { typeMatiere: "marinade", pourcentage: 10 },
         { typeMatiere: "epices", pourcentage: 5 },
       ],
+      prixParDefautHT: 25,
     },
   ];
 
   // -------- Customers (8 Suisse romande) --------
   const customerKebabRoyalId = crypto.randomUUID();
   const customers: Customer[] = [
-    { id: customerKebabRoyalId, nom: "Kebab Royal Lausanne", adresse: "Rue de Bourg 14, 1003 Lausanne", telephone: "+41 21 312 44 18", email: "contact@kebabroyal-lausanne.ch" },
-    { id: crypto.randomUUID(), nom: "Snack Istanbul Yverdon", adresse: "Rue du Lac 22, 1400 Yverdon-les-Bains", telephone: "+41 24 425 18 92" },
-    { id: crypto.randomUUID(), nom: "Anatolia Grill Genève", adresse: "Rue de Carouge 87, 1205 Genève", telephone: "+41 22 320 71 04", email: "bonjour@anatolia-grill.ch" },
-    { id: crypto.randomUUID(), nom: "Le Bosphore Fribourg", adresse: "Boulevard de Pérolles 31, 1700 Fribourg", telephone: "+41 26 322 65 40" },
-    { id: crypto.randomUUID(), nom: "Kebab du Centre Yverdon", adresse: "Place Pestalozzi 5, 1400 Yverdon-les-Bains", telephone: "+41 24 426 09 73", email: "centre@kebabyverdon.ch" },
-    { id: crypto.randomUUID(), nom: "Mésopotamia Sion", adresse: "Avenue de la Gare 18, 1950 Sion", telephone: "+41 27 322 88 51", email: "mesopotamia.sion@gmail.com" },
-    { id: crypto.randomUUID(), nom: "Istanbul Express Vevey", adresse: "Rue du Simplon 12, 1800 Vevey", telephone: "+41 21 921 47 36" },
-    { id: crypto.randomUUID(), nom: "Le Petit Sultan Neuchâtel", adresse: "Rue du Seyon 24, 2000 Neuchâtel", telephone: "+41 32 724 19 88", email: "sultan@petitsultan.ch" },
+    { id: customerKebabRoyalId, nom: "Kebab Royal Lausanne", adresse: "Rue de Bourg 14, 1003 Lausanne", telephone: "+41 21 312 44 18", email: "contact@kebabroyal-lausanne.ch", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Snack Istanbul Yverdon", adresse: "Rue du Lac 22, 1400 Yverdon-les-Bains", telephone: "+41 24 425 18 92", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Anatolia Grill Genève", adresse: "Rue de Carouge 87, 1205 Genève", telephone: "+41 22 320 71 04", email: "bonjour@anatolia-grill.ch", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Le Bosphore Fribourg", adresse: "Boulevard de Pérolles 31, 1700 Fribourg", telephone: "+41 26 322 65 40", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Kebab du Centre Yverdon", adresse: "Place Pestalozzi 5, 1400 Yverdon-les-Bains", telephone: "+41 24 426 09 73", email: "centre@kebabyverdon.ch", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Mésopotamia Sion", adresse: "Avenue de la Gare 18, 1950 Sion", telephone: "+41 27 322 88 51", email: "mesopotamia.sion@gmail.com", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Istanbul Express Vevey", adresse: "Rue du Simplon 12, 1800 Vevey", telephone: "+41 21 921 47 36", tarifs: [] },
+    { id: crypto.randomUUID(), nom: "Le Petit Sultan Neuchâtel", adresse: "Rue du Seyon 24, 2000 Neuchâtel", telephone: "+41 32 724 19 88", email: "sultan@petitsultan.ch", tarifs: [] },
   ];
 
   // -------- Production orders (2) + broches (4 + 2) --------
