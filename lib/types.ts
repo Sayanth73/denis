@@ -24,6 +24,7 @@ export type Recipe = {
   nom: string;
   poidsTotal: number;
   composition: { typeMatiere: RawMaterial["type"]; pourcentage: number }[];
+  prixParDefautHT: number; // CHF/kg, default 25
 };
 
 /** Ordre de production consommant des matières premières et produisant des broches. */
@@ -55,6 +56,7 @@ export type Customer = {
   adresse: string;
   telephone: string;
   email?: string;
+  tarifs: { recetteId: string; prixHT: number }[]; // per-recipe price overrides
 };
 
 /** Livraison regroupant une ou plusieurs broches vers un client. */
