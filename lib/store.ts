@@ -19,6 +19,7 @@ import type {
   FinishedProduct,
   Customer,
   Delivery,
+  Facture,
 } from "./types";
 import { buildSeed } from "./seed";
 
@@ -31,6 +32,7 @@ type TraceabilityState = {
   finishedProducts: FinishedProduct[];
   customers: Customer[];
   deliveries: Delivery[];
+  factures: Facture[];
   hasHydrated: boolean;
 };
 
@@ -65,6 +67,10 @@ type TraceabilityActions = {
   updateDelivery: (id: string, patch: Partial<Delivery>) => void;
   deleteDelivery: (id: string) => void;
 
+  // Factures
+  addFacture: (f: Facture) => void;
+  deleteFacture: (id: string) => void;
+
   // Lifecycle
   seedIfEmpty: () => void;
   resetToSeed: () => void;
@@ -80,6 +86,7 @@ const initialState: TraceabilityState = {
   finishedProducts: [],
   customers: [],
   deliveries: [],
+  factures: [],
   hasHydrated: false,
 };
 
@@ -142,6 +149,10 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       deleteDelivery: (id) =>
         set((s) => ({ deliveries: s.deliveries.filter((x) => x.id !== id) })),
 
+      addFacture: (f) => set((s) => ({ factures: [...s.factures, f] })),
+      deleteFacture: (id) =>
+        set((s) => ({ factures: s.factures.filter((x) => x.id !== id) })),
+
       seedIfEmpty: () => {
         const s = get();
         if (
@@ -157,6 +168,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
             finishedProducts: seed.finishedProducts,
             customers: seed.customers,
             deliveries: seed.deliveries,
+            factures: seed.factures,
           });
         }
       },
@@ -174,6 +186,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
           finishedProducts: seed.finishedProducts,
           customers: seed.customers,
           deliveries: seed.deliveries,
+          factures: seed.factures,
         });
       },
 
@@ -202,6 +215,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
         finishedProducts: state.finishedProducts,
         customers: state.customers,
         deliveries: state.deliveries,
+        factures: state.factures,
       }),
       onRehydrateStorage: () => (state, error) => {
         // Déclenché après que les données persistées sont remontées dans le store.
