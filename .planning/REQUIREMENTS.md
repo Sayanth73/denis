@@ -107,7 +107,7 @@ All v0.1 requirements shipped in milestone v0.1 (completed 2026-05-05).
 **Coverage:**
 - v0.4 requirements: 12 total
 - Mapped to phases: 12
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-05*
