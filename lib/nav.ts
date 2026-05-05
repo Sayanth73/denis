@@ -9,7 +9,8 @@ export type NavIconName =
   | "Factory"
   | "Truck"
   | "Users"
-  | "Search";
+  | "Search"
+  | "Boxes";
 
 export type NavItem = {
   label: string;
@@ -20,6 +21,7 @@ export type NavItem = {
 export const NAV_ITEMS = [
   { label: "Tableau de bord", route: "/", iconName: "Home" },
   { label: "Matières premières", route: "/matieres-premieres", iconName: "Package" },
+  { label: "Stock broches", route: "/stock-broches", iconName: "Boxes" },
   { label: "Production", route: "/production", iconName: "Factory" },
   { label: "Livraisons", route: "/livraisons", iconName: "Truck" },
   { label: "Clients", route: "/clients", iconName: "Users" },
