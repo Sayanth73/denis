@@ -32,7 +32,10 @@ Phases execute strictly in numeric order. Phases 17–19 are independent of each
   3. Clicking "Supprimer" on a matière première opens an AlertDialog naming the item; clicking "Annuler" leaves the row untouched.
   4. Typing part of a client name in the livraisons search input instantly narrows the deliveries table; clearing the input restores all rows.
   5. Typing in the search inputs on the clients page and the matières premières page each independently filter their tables by name and by name/supplier respectively.
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 16-01-PLAN.md — Date audit + matières premières delete confirmation + search on all three list pages
+
 **UI hint**: yes
 
 ### Phase 17: CRUD Recettes
@@ -77,7 +80,7 @@ Phases execute in numeric order: 16 → 17 → 18 → 19
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 16. UX Polish — Dates suisses, confirmations, recherche | 0/? | Not started | - |
+| 16. UX Polish — Dates suisses, confirmations, recherche | 0/1 | Not started | - |
 | 17. CRUD Recettes | 0/? | Not started | - |
 | 18. Export PDF Facture | 0/? | Not started | - |
 | 19. Sauvegarde et restauration JSON | 0/? | Not started | - |
