@@ -16,6 +16,7 @@ import type {
   FinishedProduct,
   Customer,
   Delivery,
+  Facture,
 } from "./types";
 import { computeBrocheDlc } from "./dlc";
 import { generateLotNumber } from "./lot-number";
@@ -27,6 +28,7 @@ export type SeedData = {
   finishedProducts: FinishedProduct[];
   customers: Customer[];
   deliveries: Delivery[];
+  factures: Facture[];
 };
 
 export function buildSeed(now: Date = new Date()): SeedData {
@@ -256,5 +258,6 @@ export function buildSeed(now: Date = new Date()): SeedData {
     finishedProducts,
     customers,
     deliveries,
+    factures: [] as Facture[],
   };
 }
