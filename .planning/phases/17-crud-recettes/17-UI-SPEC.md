@@ -58,12 +58,12 @@ Source: Measured from `components/production/recettes-tab.tsx` and `components/c
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Body / dialog description | 14px (text-sm) | 400 (regular) | 1.5 |
-| Label / form label | 14px (text-sm) | 500 (medium) | 1.5 |
-| Section heading / dialog title | 16px (text-base) | 600 (semibold) | 1.2 |
+| Label / form label | 14px (text-sm) | 400 (regular) | 1.5 |
+| Section heading / dialog title | 18px (text-lg) | 600 (semibold) | 1.2 |
 | Toast / muted annotation | 12px (text-xs) | 400 (regular) | 1.5 |
 
 Notes:
-- Only 2 weights in use: 400 (regular) and 600 (semibold). 500 (medium) used only for form labels via shadcn Label component default.
+- Only 2 weights in use: 400 (regular) and 600 (semibold).
 - Recipe name inside card: `text-sm font-semibold text-foreground` — matches established pattern in `recettes-tab.tsx`.
 - Price annotation inside card: `text-sm text-muted-foreground tabular-nums` — established in `recettes-tab.tsx`.
 - Dialog title: `text-lg font-semibold` (shadcn DialogTitle default, new-york style).
@@ -261,11 +261,11 @@ No third-party registries declared for this phase.
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS (FLAG: no explicit focal point sentence — derivable from accent assignment)
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved 2026-05-05
