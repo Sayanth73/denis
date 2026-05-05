@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RecettesTab } from "@/components/production/recettes-tab";
 import { OrdreFabricationTable } from "@/components/production/ordre-fabrication-table";
 import { useTraceabilityStore } from "@/lib/store";
+import { ProductionWizard } from "@/components/production/production-wizard";
 
 export default function ProductionPage() {
   const recipes = useTraceabilityStore((s) => s.recipes);
@@ -58,9 +59,7 @@ export default function ProductionPage() {
         </TabsContent>
       </Tabs>
 
-      {/* Wave 3 (04-03-PLAN.md) drops <ProductionWizard> here, consuming wizardOpen + setWizardOpen */}
-      {/* Temporary: ensure wizardOpen is consumed to avoid TS unused-variable warning */}
-      {wizardOpen && null}
+      <ProductionWizard open={wizardOpen} onOpenChange={setWizardOpen} />
     </>
   );
 }
