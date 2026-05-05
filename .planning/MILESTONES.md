@@ -26,3 +26,28 @@
 - §9 5-step demo flow traced clean at code level (no blockers), tsc exits 0, npm run build exits 0, and README.md updated with French milestone narrative.
 
 ---
+
+## v0.2 (Shipped: 2026-05-05)
+
+**Phases completed:** 4 phases (10–13)
+
+**Key accomplishments:**
+- Broche recipe display throughout the app (recipe name visible on broches)
+- /stock-broches inventory screen for finished products in stock
+- Auto-generated factures on delivery with /factures list and detail screens
+- Payment lifecycle tracking (en attente, payée, en retard) with dashboard KPI and paramètre délai
+
+---
+
+## v0.3 grille-tarifaire (Shipped: 2026-05-05)
+
+**Phases completed:** 2 phases (14–15)
+
+**Key accomplishments:**
+- Data layer: `prixParDefautHT` on Recipe type, `tarifs[]` on Customer type, Zustand store v4 migration
+- buildFacture dynamically resolves price: client tarif override → recipe default → 25 CHF/kg fallback
+- Grille tarifaire UI in Paramètres: edit default CHF/kg per recipe with inline validation
+- Tarifs spéciaux UI on client detail page: per-recipe price override with empty = remove override
+
+---
+

@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v0.3
-milestone_name: milestone
-status: executing
-stopped_at: context exhaustion at 75% (2026-05-05)
-last_updated: "2026-05-05T13:38:22.024Z"
+milestone: v0.4
+milestone_name: usabilite-et-exports
+status: planning
+last_updated: "2026-05-05T00:00:00.000Z"
 last_activity: 2026-05-05
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 100
+  total_phases: 4
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 15
-Plan: Not started
-Status: Executing Phase 15
-Last activity: 2026-05-05
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-05 — Milestone v0.4 started
 
 ## Performance Metrics
 
