@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
         <Sidebar />
-        <div className="pl-60">
+        <div className="md:pl-60">
           <Header />
           <main className="px-6 py-6">
             <SeedProvider>{children}</SeedProvider>

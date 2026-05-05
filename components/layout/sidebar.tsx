@@ -6,7 +6,7 @@ import { NavItem } from "@/components/layout/nav-item";
 
 export function Sidebar() {
   return (
-    <aside className="fixed left-0 top-0 flex h-screen w-60 flex-col border-r border-border bg-zinc-50">
+    <aside className="fixed left-0 top-0 hidden md:flex h-screen w-60 flex-col border-r border-border bg-zinc-50">
       {/* Brand row — 56px tall to align with header */}
       <div className="flex h-14 items-center px-4">
         <span className="text-base font-semibold">TraceKebab</span>
