@@ -10,7 +10,8 @@ export type NavIconName =
   | "Truck"
   | "Users"
   | "Search"
-  | "Boxes";
+  | "Boxes"
+  | "Receipt";
 
 export type NavItem = {
   label: string;
@@ -24,6 +25,7 @@ export const NAV_ITEMS = [
   { label: "Stock broches", route: "/stock-broches", iconName: "Boxes" },
   { label: "Production", route: "/production", iconName: "Factory" },
   { label: "Livraisons", route: "/livraisons", iconName: "Truck" },
+  { label: "Factures", route: "/factures", iconName: "Receipt" },
   { label: "Clients", route: "/clients", iconName: "Users" },
   { label: "Traçabilité", route: "/tracabilite", iconName: "Search" },
 ] as const satisfies readonly NavItem[];
