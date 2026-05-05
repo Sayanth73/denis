@@ -46,7 +46,7 @@ export default function ProductionPage() {
         </TabsList>
 
         <TabsContent value="recettes">
-          <RecettesTab recipes={recipes} />
+          <RecettesTab />
         </TabsContent>
 
         <TabsContent value="ordres">
