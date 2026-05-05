@@ -139,7 +139,7 @@ export function ProductionWizard({ open, onOpenChange }: ProductionWizardProps) 
 
   return (
     <Dialog open={open} onOpenChange={(next) => { if (!next) handleClose(); }}>
-      <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="mx-4 w-[calc(100%-2rem)] sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Nouvel ordre de fabrication</DialogTitle>
           <DialogDescription>{stepTitles[step]}</DialogDescription>
@@ -185,7 +185,7 @@ export function ProductionWizard({ open, onOpenChange }: ProductionWizardProps) 
         )}
 
         {step === 3 && selectedRecipe && (
-          <div>
+          <div className="min-w-0">
             <div className="space-y-1 mb-4">
               {[
                 { label: "Recette", value: selectedRecipe.nom },

@@ -125,7 +125,7 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="mx-4 w-[calc(100%-2rem)] sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Nouvelle livraison</DialogTitle>
           <DialogDescription>

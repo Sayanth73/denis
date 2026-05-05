@@ -47,7 +47,7 @@ export default function FacturesPage() {
   }
 
   return (
-    <div className="rounded-md border bg-background overflow-hidden">
+    <div className="rounded-md border bg-background overflow-x-auto overflow-hidden">
       <Table>
         <colgroup>
           <col style={{ width: "13%" }} />

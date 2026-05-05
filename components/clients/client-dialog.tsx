@@ -105,7 +105,7 @@ export function ClientDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[480px]">
+      <DialogContent className="mx-4 w-[calc(100%-2rem)] sm:max-w-[480px]">
         <DialogHeader>
           <DialogTitle>
             {mode === "create" ? "Nouveau client" : "Modifier le client"}

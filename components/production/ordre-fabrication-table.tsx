@@ -41,7 +41,7 @@ export function OrdreFabricationTable({
   const rmMap = new Map(rawMaterials.map((rm) => [rm.id, rm]));
 
   return (
-    <div className="rounded-md border bg-background overflow-hidden">
+    <div className="rounded-md border bg-background overflow-x-auto overflow-hidden">
       <Table>
         <colgroup>
           <col style={{ width: "14%" }} />

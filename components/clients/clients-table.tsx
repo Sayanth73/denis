@@ -46,7 +46,7 @@ export function ClientsTable({ customers, onEdit }: ClientsTableProps): JSX.Elem
 
   return (
     <>
-      <div className="rounded-md border bg-background overflow-hidden">
+      <div className="rounded-md border bg-background overflow-x-auto overflow-hidden">
         <Table>
           <colgroup>
             <col style={{ width: "22%" }} />

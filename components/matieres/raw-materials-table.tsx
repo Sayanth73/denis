@@ -132,7 +132,7 @@ export function RawMaterialsTable({ rows, productionOrders }: RawMaterialsTableP
 
   return (
     <>
-      <div className="rounded-md border bg-background overflow-hidden">
+      <div className="rounded-md border bg-background overflow-x-auto overflow-hidden">
         <Table>
           <colgroup>
             {COLUMNS.map((c) => (
