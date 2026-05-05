@@ -68,9 +68,15 @@ v0.2 addresses three gaps discovered during the v0.1 demo review: (1) broche rec
   5. Le tableau de bord expose une KPI card "Factures impayées" avec le total TTC en attente et le nombre de factures en retard.
 **Plans**: 2 plans
 
-Plans:
-- [ ] 13-01-PLAN.md — Data layer: extend types, store (updateFacture + v2→v3 migration), factures helpers (isFactureEnRetard, badge constants), dashboard KPI helpers
-- [ ] 13-02-PLAN.md — UI layer: factures list (sort + Statut paiement column), facture detail (payment section with buttons/badge), dashboard KPI card 4 replacement, parametres delaiPaiementJours field
+**Wave 1** (run first):
+- [x] 13-01-PLAN.md — Data layer: extend types, store (updateFacture + v2→v3 migration), factures helpers (isFactureEnRetard, badge constants), dashboard KPI helpers
+
+**Wave 2** *(blocked on Wave 1 completion)*:
+- [x] 13-02-PLAN.md — UI layer: factures list (sort + Statut paiement + Date paiement columns), facture detail (payment section with buttons/badge), dashboard KPI card 4 replacement, parametres delaiPaiementJours field
+
+**Cross-cutting constraints:**
+- Store version must be bumped to 3 before any UI touches the paiement field
+- `isFactureEnRetard` and badge constants must exist in lib/factures.ts before list/detail pages import them
 
 ## Progress
 
@@ -82,4 +88,4 @@ Phases execute in numeric order: 10 → 11 → 12 → 13
 | 10. Broche Recipe Display | 1/1 | Complete   | 2026-05-05 |
 | 11. Stock Broches Finies Screen | 1/1 | Complete   | 2026-05-05 |
 | 12. Auto-Factures | 1/1 | Complete   | 2026-05-05 |
-| 13. Suivi des paiements | 0/2 | Not started | - |
+| 13. Suivi des paiements | 2/2 | Complete   | 2026-05-05 |
