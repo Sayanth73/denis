@@ -8,11 +8,20 @@ TraceKebab is a clickable Proof of Concept for a small Swiss kebab meat transfor
 
 Given a supplier lot number or an internal broche lot number, the user can in one click visualize the entire chain (supplier → production → client) and export it as a PDF dossier suitable for an OSAV (Swiss Federal Food Safety and Veterinary Office) sanitary control. This single capability is the killer feature; everything else exists to support it.
 
+## Current Milestone: v0.3 — Grille tarifaire
+
+**Goal:** Chaque recette a un prix par défaut au kg ; chaque client peut avoir des tarifs spécifiques par recette ; les factures auto-générées utilisent toujours le bon prix sans saisie manuelle.
+
+**Target features:**
+- Grille tarifaire dans Paramètres : prix par défaut par recette
+- Tarifs spéciaux par client : override par recette sur la fiche client
+- buildFacture résout automatiquement le bon prix (override client → défaut recette)
+
 ## Requirements
 
 ### Validated
 
-<!-- Shipped and confirmed valuable. v0.1 completed 2026-05-05. -->
+<!-- Shipped and confirmed valuable. v0.1 completed 2026-05-05. v0.2 completed 2026-05-05. -->
 
 - [x] REQ-layout-shell — Application shell with sidebar navigation
 - [x] REQ-dashboard — Dashboard with KPI cards, alerts, and recent activity
@@ -36,13 +45,18 @@ Given a supplier lot number or an internal broche lot number, the user can in on
 - [x] REQ-no-pagination — No pagination, capped data volume (20-30 rows max)
 - [x] REQ-success-criteria-demo-flow — End-to-end 5-minute demo flow per §9 of PRD
 
+- [x] REQ-v2-broche-recipe-display — Recipe name visible wherever a broche appears
+- [x] REQ-v2-stock-broches-screen — /stock-broches inventory screen for finished products
+- [x] REQ-v2-factures — Auto-generate facture on delivery, /factures list and detail screens
+- [x] REQ-v2-suivi-paiements — Payment lifecycle tracking on invoices, dashboard KPI, paramètre délai
+
 ### Active
 
-<!-- Current scope. Building toward these. v0.2 — broche-recipe-stock-factures. -->
+<!-- Current scope. Building toward these. v0.3 — grille-tarifaire. -->
 
-- [ ] REQ-v2-broche-recipe-display — Recipe name visible wherever a broche appears
-- [ ] REQ-v2-stock-broches-screen — /stock-broches inventory screen for finished products
-- [ ] REQ-v2-factures — Auto-generate facture on delivery, /factures list and detail screens
+- [ ] REQ-v3-prix-recette-defaut — Default price per kg configurable per recipe in Paramètres
+- [ ] REQ-v3-prix-client-override — Per-client price override per recipe on client detail page
+- [ ] REQ-v3-facture-prix-auto — Factures auto-generated with correct per-recipe, per-client price
 
 ### Out of Scope
 
@@ -125,4 +139,4 @@ Given a supplier lot number or an internal broche lot number, the user can in on
 | <decisions id="DEC-no-tests" status="locked">DEC-no-tests</decisions> | No unit/integration/e2e tests in POC | §8 | — Pending |
 
 ---
-*Last updated: 2026-05-05 — v0.1 completed, v0.2 milestone started (broche-recipe-stock-factures)*
+*Last updated: 2026-05-05 — v0.2 completed, v0.3 milestone started (grille-tarifaire)*

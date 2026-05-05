@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v0.2
-milestone_name: milestone
-status: Complete
+milestone: v0.3
+milestone_name: grille-tarifaire
+status: planning
 stopped_at: ~
 last_updated: "2026-05-05T00:00:00.000Z"
-last_activity: 2026-05-05 — Phase 13 (suivi paiements) completed — milestone v0.2 complete
+last_activity: 2026-05-05 — Milestone v0.3 started (grille-tarifaire)
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  total_phases: 2
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 13 — Suivi des paiements
-Plan: 13-02 (final)
-Status: Complete — all 4 phases of milestone v0.2 done
-Last activity: 2026-05-05 — Phase 13 verified (9/9 deliverables pass); milestone v0.2 complete
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-05-05 — Milestone v0.3 started (grille-tarifaire, 2 phases)
 
 ## Performance Metrics
 
