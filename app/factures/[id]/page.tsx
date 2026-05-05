@@ -46,6 +46,7 @@ export default function FactureDetailPage() {
   const tvaAmount = f.totalHT * f.tva;
 
   function handlePayerLivraison() {
+    if (f.paiement.statut !== "en_attente") return;
     updateFacture(f.id, {
       paiement: { statut: "payee_livraison", datePaiement: new Date().toISOString().slice(0, 10) },
     });
@@ -53,6 +54,7 @@ export default function FactureDetailPage() {
   }
 
   function handleVirementRecu() {
+    if (f.paiement.statut !== "en_attente") return;
     updateFacture(f.id, {
       paiement: { statut: "payee_virement", datePaiement: new Date().toISOString().slice(0, 10) },
     });

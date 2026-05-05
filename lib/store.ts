@@ -223,30 +223,29 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       version: 3,
       storage: createJSONStorage(() => localStorage),
       migrate: (persistedState, version) => {
-        const state = persistedState as Record<string, unknown>;
-        if (version === 1) {
+        if (version > 3) return undefined;
+        let s = persistedState as Record<string, unknown>;
+
+        if (version <= 1) {
           // v1 → v2 : ajout du champ settings
-          return { ...state, settings: DEFAULT_SETTINGS } as TraceabilityStore;
+          s = { ...s, settings: DEFAULT_SETTINGS };
         }
-        if (version === 2) {
+
+        if (version <= 2) {
           // v2 → v3 : ajout du champ paiement aux factures existantes + delaiPaiementJours aux settings
-          const factures = Array.isArray(state.factures)
-            ? (state.factures as Facture[]).map((f) =>
+          const factures = Array.isArray(s.factures)
+            ? (s.factures as Facture[]).map((f) =>
                 f.paiement ? f : { ...f, paiement: { statut: "en_attente" as const } }
               )
             : [];
           const settings = {
-            ...(state.settings as AppSettings),
-            delaiPaiementJours: 30,
+            ...(s.settings as AppSettings ?? DEFAULT_SETTINGS),
+            delaiPaiementJours: (s.settings as AppSettings)?.delaiPaiementJours ?? 30,
           };
-          return { ...state, factures, settings } as TraceabilityStore;
+          s = { ...s, factures, settings };
         }
-        if (version === 3) {
-          return persistedState as TraceabilityStore;
-        }
-        // Version inconnue → renvoyer undefined pour que persist retombe sur
-        // l'état initial vide et que seedIfEmpty() réamorce proprement.
-        return undefined;
+
+        return s as TraceabilityStore;
       },
       // Ne persiste que les données — jamais le drapeau de réhydratation.
       partialize: (state) => ({

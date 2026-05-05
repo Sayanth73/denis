@@ -129,7 +129,7 @@ export default function ParametresPage() {
                     value={field.value ?? ""}
                     onChange={(e) => {
                       const val = parseInt(e.target.value, 10);
-                      field.onChange(isNaN(val) ? 0 : val);
+                      field.onChange(isNaN(val) ? "" : val);
                     }}
                     onBlur={field.onBlur}
                     name={field.name}
