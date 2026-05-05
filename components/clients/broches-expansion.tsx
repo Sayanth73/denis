@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -148,7 +149,13 @@ export function BrochesExpansion({
             <React.Fragment key={fp.id}>
               <TableRow className="border-b border-border last:border-b-0">
                 <TableCell className="py-2 px-4 text-sm">
-                  <span className="font-mono">{fp.numeroLotInterne}</span>
+                  <Link
+                    href={`/tracabilite?lot=${fp.numeroLotInterne}`}
+                    className="font-mono hover:underline text-primary"
+                    title="Voir la traçabilité de ce lot"
+                  >
+                    {fp.numeroLotInterne}
+                  </Link>
                 </TableCell>
                 <TableCell className="py-2 px-4 text-sm">
                   <span className="tabular-nums">{fp.poids} kg</span>
