@@ -30,6 +30,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { DlcBadge } from "@/components/dlc-badge";
 import { useTraceabilityStore } from "@/lib/store";
 import { getInStockBroches } from "@/lib/deliveries";
+import { getRecipeForBroche } from "@/lib/finished-products";
 import type { Delivery } from "@/lib/types";
 
 function todayIso(): string {
@@ -62,6 +63,8 @@ type NewDeliveryDialogProps = {
 export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps) {
   const finishedProducts = useTraceabilityStore((s) => s.finishedProducts);
   const customers = useTraceabilityStore((s) => s.customers);
+  const productionOrders = useTraceabilityStore((s) => s.productionOrders);
+  const recipes = useTraceabilityStore((s) => s.recipes);
 
   const inStockBroches = React.useMemo(
     () => getInStockBroches(finishedProducts),
@@ -183,6 +186,7 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
                         ) : (
                           inStockBroches.map((fp, idx) => {
                             const checked = field.value.includes(fp.id);
+                            const recipe = getRecipeForBroche(fp, productionOrders, recipes);
                             return (
                               <div
                                 key={fp.id}
@@ -213,6 +217,11 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
                                   <span className="font-mono text-sm">
                                     {fp.numeroLotInterne}
                                   </span>
+                                  {recipe && (
+                                    <span className="text-sm text-muted-foreground">
+                                      {recipe.nom}
+                                    </span>
+                                  )}
                                   <span className="text-sm text-muted-foreground tabular-nums">
                                     {fp.poids} kg
                                   </span>
