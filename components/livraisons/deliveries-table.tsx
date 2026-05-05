@@ -30,7 +30,9 @@ import {
   getCustomerById,
 } from "@/lib/deliveries";
 import { useTraceabilityStore } from "@/lib/store";
-import type { Delivery, FinishedProduct, Customer } from "@/lib/types";
+import { getRecipeForBroche } from "@/lib/finished-products";
+import { generateFactureNumber } from "@/lib/factures";
+import type { Delivery, FinishedProduct, Customer, FactureLigne } from "@/lib/types";
 
 type DeliveriesTableProps = {
   deliveries: Delivery[];
@@ -71,9 +73,40 @@ export function DeliveriesTable({
     }
     store.updateDelivery(pendingDelivery.id, { statut: "livree" });
 
-    toast.success(
-      `Livraison confirmée — ${N} broche(s) livrée(s) à ${pendingCustomerName}`,
-    );
+    // Auto-generate facture
+    const today = new Date().toISOString().slice(0, 10);
+    const { finishedProducts, productionOrders, recipes, factures } = store;
+    const lignes: FactureLigne[] = pendingDelivery.brochesLivrees.map((fpId) => {
+      const fp = finishedProducts.find((p) => p.id === fpId);
+      const recipe = fp ? getRecipeForBroche(fp, productionOrders, recipes) : null;
+      const poidsKg = fp?.poids ?? 0;
+      const prixUnitaireHT = 25;
+      return {
+        brocheId: fpId,
+        numeroLot: fp?.numeroLotInterne ?? "",
+        recetteNom: recipe?.nom ?? "—",
+        poidsKg,
+        prixUnitaireHT,
+        montantHT: poidsKg * prixUnitaireHT,
+      };
+    });
+    const totalHT = lignes.reduce((sum, l) => sum + l.montantHT, 0);
+    const tva = 0.081;
+    const totalTTC = totalHT * (1 + tva);
+    const numeroFacture = generateFactureNumber(today, factures.length + 1);
+    store.addFacture({
+      id: crypto.randomUUID(),
+      numeroFacture,
+      livraisonId: pendingDelivery.id,
+      clientId: pendingDelivery.customerId,
+      dateFacture: today,
+      lignes,
+      totalHT,
+      tva,
+      totalTTC,
+    });
+
+    toast.success(`Livraison confirmée — Facture ${numeroFacture} générée`);
     setPendingDeliveryId(null);
   }
 
