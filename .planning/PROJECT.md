@@ -12,35 +12,37 @@ Given a supplier lot number or an internal broche lot number, the user can in on
 
 ### Validated
 
-<!-- Shipped and confirmed valuable. -->
+<!-- Shipped and confirmed valuable. v0.1 completed 2026-05-05. -->
 
-(None yet — POC has not yet been demoed.)
+- [x] REQ-layout-shell — Application shell with sidebar navigation
+- [x] REQ-dashboard — Dashboard with KPI cards, alerts, and recent activity
+- [x] REQ-raw-materials-list — Sortable raw materials table
+- [x] REQ-raw-material-receive — Receive a new raw material lot
+- [x] REQ-recipes-readonly — Recipes tab listing seeded recipes
+- [x] REQ-production-orders-list — Production orders table
+- [x] REQ-production-wizard — 3-step production order wizard with FIFO lot allocation
+- [x] REQ-deliveries-list — Deliveries table
+- [x] REQ-delivery-create — Create a new delivery from broches in stock
+- [x] REQ-clients-crud — Clients list with basic CRUD
+- [x] REQ-client-detail-history — Client detail with delivery history and full upstream trace
+- [x] REQ-tracabilite-search — Traçabilité search bar with example shortcuts
+- [x] REQ-tracabilite-upstream — Trace from raw material lot to clients (Cas 1)
+- [x] REQ-tracabilite-downstream — Trace from broche to raw materials (Cas 2)
+- [x] REQ-tracabilite-pdf-export — Export traçabilité dossier as PDF
+- [x] REQ-dlc-color-coding — DLC badge colors (green/orange/red/grey)
+- [x] REQ-toasts-on-mutations — Toasts on every create/modify action
+- [x] REQ-confirmations-on-critical-actions — Confirmation prompts for critical actions
+- [x] REQ-empty-states — Polished empty states on every table
+- [x] REQ-no-pagination — No pagination, capped data volume (20-30 rows max)
+- [x] REQ-success-criteria-demo-flow — End-to-end 5-minute demo flow per §9 of PRD
 
 ### Active
 
-<!-- Current scope. Building toward these. v0.1 — POC traceability demo. -->
+<!-- Current scope. Building toward these. v0.2 — broche-recipe-stock-factures. -->
 
-- [ ] REQ-layout-shell — Application shell with sidebar navigation
-- [ ] REQ-dashboard — Dashboard with KPI cards, alerts, and recent activity
-- [ ] REQ-raw-materials-list — Sortable raw materials table
-- [ ] REQ-raw-material-receive — Receive a new raw material lot
-- [ ] REQ-recipes-readonly — Recipes tab listing seeded recipes
-- [ ] REQ-production-orders-list — Production orders table
-- [ ] REQ-production-wizard — 3-step production order wizard with FIFO lot allocation
-- [ ] REQ-deliveries-list — Deliveries table
-- [ ] REQ-delivery-create — Create a new delivery from broches in stock
-- [ ] REQ-clients-crud — Clients list with basic CRUD
-- [ ] REQ-client-detail-history — Client detail with delivery history and full upstream trace
-- [ ] REQ-tracabilite-search — Traçabilité search bar with example shortcuts
-- [ ] REQ-tracabilite-upstream — Trace from raw material lot to clients (Cas 1)
-- [ ] REQ-tracabilite-downstream — Trace from broche to raw materials (Cas 2)
-- [ ] REQ-tracabilite-pdf-export — Export traçabilité dossier as PDF
-- [ ] REQ-dlc-color-coding — DLC badge colors (green/orange/red/grey)
-- [ ] REQ-toasts-on-mutations — Toasts on every create/modify action
-- [ ] REQ-confirmations-on-critical-actions — Confirmation prompts for critical actions
-- [ ] REQ-empty-states — Polished empty states on every table
-- [ ] REQ-no-pagination — No pagination, capped data volume (20-30 rows max)
-- [ ] REQ-success-criteria-demo-flow — End-to-end 5-minute demo flow per §9 of PRD
+- [ ] REQ-v2-broche-recipe-display — Recipe name visible wherever a broche appears
+- [ ] REQ-v2-stock-broches-screen — /stock-broches inventory screen for finished products
+- [ ] REQ-v2-factures — Auto-generate facture on delivery, /factures list and detail screens
 
 ### Out of Scope
 
@@ -52,7 +54,7 @@ Given a supplier lot number or an internal broche lot number, the user can in on
 - Mobile / responsive layouts — demo is shown on a laptop; responsive engineering is wasted effort.
 - Dark mode — adds visual complexity without informing the value prop.
 - Recipe creation/editing — the 3 seeded recipes are read-only in v0.1.
-- Invoicing, QR-bills, accounting, pricing, margins, quotes — not part of the traceability story.
+- Invoicing (QR-bill, email delivery, credit notes) — basic facture auto-generated in v0.2; advanced features deferred.
 - Email / SMS notifications — out of scope for a demo.
 - Unit / integration / e2e tests — POC quality bar is "the demo runs", not "regression-safe".
 - Real-time updates / multi-user collaboration — single-tab, single-user demo.
@@ -123,4 +125,4 @@ Given a supplier lot number or an internal broche lot number, the user can in on
 | <decisions id="DEC-no-tests" status="locked">DEC-no-tests</decisions> | No unit/integration/e2e tests in POC | §8 | — Pending |
 
 ---
-*Last updated: 2026-05-04 after intel synthesis (new-project-from-ingest bootstrap)*
+*Last updated: 2026-05-05 — v0.1 completed, v0.2 milestone started (broche-recipe-stock-factures)*
