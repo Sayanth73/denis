@@ -13,7 +13,7 @@ v0.2 addresses three gaps discovered during the v0.1 demo review: (1) broche rec
 **Phase Numbering:**
 - Phases 10-12 continue the v0.1 numbering sequence (1-9 are complete).
 
-- [ ] **Phase 10: Broche Recipe Display** — Add `getRecipeForBroche()` helper and surface recipe name in every component that lists or shows a broche: new-delivery-dialog, broches-expansion, tracabilite-downstream, tracabilite-upstream.
+- [x] **Phase 10: Broche Recipe Display** — Add `getRecipeForBroche()` helper and surface recipe name in every component that lists or shows a broche: new-delivery-dialog, broches-expansion, tracabilite-downstream, tracabilite-upstream. (completed 2026-05-05)
 - [ ] **Phase 11: Stock Broches Finies Screen** — New route `/stock-broches` with a sortable table of all FinishedProducts (en_stock + livree), filter chips by statut, and a "Broches en stock" sidebar entry. Update the dashboard KPI card link.
 - [ ] **Phase 12: Auto-Factures** — `Facture` domain type, `addFacture` store action, auto-generate facture on "Marquer comme livrée", new `/factures` list screen and `/factures/[id]` detail with print/PDF, sidebar entry "Factures".
 
@@ -63,6 +63,6 @@ Phases execute in numeric order: 10 → 11 → 12
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 10. Broche Recipe Display | 0/TBD | Not started | - |
+| 10. Broche Recipe Display | 1/1 | Complete   | 2026-05-05 |
 | 11. Stock Broches Finies Screen | 0/TBD | Not started | - |
 | 12. Auto-Factures | 0/TBD | Not started | - |
