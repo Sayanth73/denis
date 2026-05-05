@@ -8,9 +8,9 @@ last_activity: 2026-05-05
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_plans: 1
+  completed_plans: 1
+  percent: 6
 ---
 
 # Project State
@@ -24,16 +24,16 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 
 ## Current Position
 
-Phase: 16 (not started)
-Plan: —
-Status: Roadmap defined, ready to plan Phase 16
-Last activity: 2026-05-05 — Milestone v0.4 roadmap created (phases 16–19)
+Phase: 16 (complete)
+Plan: 16-01 (complete)
+Status: Phase 16 complete — all 6 requirements delivered
+Last activity: 2026-05-05 — Phase 16 plan 01 executed: date audit, MP delete confirmation, search inputs
 
 ## Progress Bar
 
 ```
 Milestone v0.4 — usabilite-et-exports
-Phase 16 [          ] 0%
+Phase 16 [##########] 100% (1/1 plans)
 Phase 17 [          ] 0%
 Phase 18 [          ] 0%
 Phase 19 [          ] 0%
@@ -52,6 +52,7 @@ Phase 19 [          ] 0%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 3     | 1     | 2m 28s | 2m 28s   |
+| 16    | 1     | ~15m   | ~15m     |
 | 03 | 2 | - | - |
 | 04 | 3 | - | - |
 | 05 | 3 | - | - |
@@ -73,7 +74,13 @@ Phase 19 [          ] 0%
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table. 18 decisions were locked at bootstrap from PRD §2/§3/§4/§5/§6/§7/§8/§10. Key constraints for v0.4:
+Decisions are logged in PROJECT.md Key Decisions table. 18 decisions were locked at bootstrap from PRD §2/§3/§4/§5/§6/§7/§8/§10. Phase 16 decisions added 2026-05-05:
+
+- DEC-16-01-hooks-before-early-return: useMemo/useState hooks declared before `if (!hasHydrated)` early return in all pages to satisfy React rules-of-hooks
+- DEC-16-02-no-results-instead-pattern: When filter returns zero rows on non-empty store, render `<p>Aucun résultat…</p>` instead of empty table (avoids empty border artifact)
+- DEC-16-03-date-audit-zero-violations: All date renders already use formatDate() or DlcBadge — zero fixes needed; no formatDate call sites changed
+
+Key constraints for v0.4:
 
 - DEC-stack-framework: Next.js 14+ App Router (no Pages Router).
 - DEC-stack-styling: Tailwind CSS only.
@@ -116,6 +123,6 @@ Items acknowledged and carried forward from previous milestones:
 
 ## Session Continuity
 
-Last session: 2026-05-05T13:27:46.838Z
-Stopped at: v0.4 roadmap creation
+Last session: 2026-05-05T00:00:00Z
+Stopped at: Completed 16-01-PLAN.md — Phase 16 all requirements delivered
 Resume file: None

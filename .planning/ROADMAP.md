@@ -15,7 +15,7 @@ Phases execute strictly in numeric order. Phases 17–19 are independent of each
 **Phase Numbering:**
 - Phases 16-19 continue the v0.3 numbering sequence (1-15 are complete).
 
-- [ ] **Phase 16: UX Polish — Dates suisses, confirmations, recherche** — Replace ISO dates with DD.MM.YYYY throughout; add AlertDialog before deleting a client or a matière première; add search/filter inputs above the livraisons, clients, and matières premières tables.
+- [x] **Phase 16: UX Polish — Dates suisses, confirmations, recherche** — Replace ISO dates with DD.MM.YYYY throughout; add AlertDialog before deleting a client or a matière première; add search/filter inputs above the livraisons, clients, and matières premières tables.
 - [ ] **Phase 17: CRUD Recettes** — Add create, edit, and delete to the recipes screen; guard deletion when the recipe is referenced by a production order; persist changes immediately to the store.
 - [ ] **Phase 18: Export PDF Facture** — Add an "Exporter PDF" button to the facture detail page using react-to-print (already installed); output covers client details, line items, totals HT/TTC, and payment deadline.
 - [ ] **Phase 19: Sauvegarde et restauration JSON** — Add export (download full store as JSON) and import (file picker + confirmation → replace store) to Paramètres.
@@ -34,7 +34,7 @@ Phases execute strictly in numeric order. Phases 17–19 are independent of each
   5. Typing in the search inputs on the clients page and the matières premières page each independently filter their tables by name and by name/supplier respectively.
 **Plans**: 1 plan
 Plans:
-- [ ] 16-01-PLAN.md — Date audit + matières premières delete confirmation + search on all three list pages
+- [x] 16-01-PLAN.md — Date audit + matières premières delete confirmation + search on all three list pages
 
 **UI hint**: yes
 
@@ -80,7 +80,7 @@ Phases execute in numeric order: 16 → 17 → 18 → 19
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 16. UX Polish — Dates suisses, confirmations, recherche | 0/1 | Not started | - |
+| 16. UX Polish — Dates suisses, confirmations, recherche | 1/1 | Complete | 2026-05-05 |
 | 17. CRUD Recettes | 0/? | Not started | - |
 | 18. Export PDF Facture | 0/? | Not started | - |
 | 19. Sauvegarde et restauration JSON | 0/? | Not started | - |
