@@ -21,7 +21,10 @@ import type {
   ProductionOrder,
   Customer,
   Recipe,
+  Facture,
+  AppSettings,
 } from "./types";
+import { isFactureEnRetard } from "./factures";
 
 // ─── KPI helpers ─────────────────────────────────────────────────────────────
 
@@ -271,4 +274,22 @@ export function getRecentActivity(
 export function formatRelativeDate(iso: string): string {
   const date = new Date(`${iso.slice(0, 10)}T00:00:00.000Z`);
   return formatDistanceToNow(date, { addSuffix: true, locale: fr });
+}
+
+// ─── Factures KPI helpers ─────────────────────────────────────────────────────
+
+/** Total TTC de toutes les factures dont le statut paiement est "en_attente". */
+export function sumFacturesEnAttente(factures: Facture[]): number {
+  return factures
+    .filter((f) => f.paiement.statut === "en_attente")
+    .reduce((sum, f) => sum + f.totalTTC, 0);
+}
+
+/** Nombre de factures en_attente dont le délai de paiement est dépassé. */
+export function countFacturesEnRetard(
+  factures: Facture[],
+  settings: AppSettings,
+  today: Date,
+): number {
+  return factures.filter((f) => isFactureEnRetard(f, settings, today)).length;
 }

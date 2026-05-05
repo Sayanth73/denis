@@ -20,6 +20,7 @@ import type {
   Customer,
   Delivery,
   Facture,
+  AppSettings,
 } from "./types";
 import { buildSeed } from "./seed";
 
@@ -33,6 +34,7 @@ type TraceabilityState = {
   customers: Customer[];
   deliveries: Delivery[];
   factures: Facture[];
+  settings: AppSettings;
   hasHydrated: boolean;
 };
 
@@ -70,6 +72,10 @@ type TraceabilityActions = {
   // Factures
   addFacture: (f: Facture) => void;
   deleteFacture: (id: string) => void;
+  updateFacture: (id: string, patch: Partial<Facture>) => void;
+
+  // Settings
+  updateSettings: (patch: Partial<AppSettings>) => void;
 
   // Lifecycle
   seedIfEmpty: () => void;
@@ -79,6 +85,14 @@ type TraceabilityActions = {
 
 export type TraceabilityStore = TraceabilityState & TraceabilityActions;
 
+const DEFAULT_SETTINGS: AppSettings = {
+  iban: "",
+  nomCreancier: "TraceKebab Sàrl",
+  adresseLigne1: "",
+  adresseLigne2: "",
+  delaiPaiementJours: 30,
+};
+
 const initialState: TraceabilityState = {
   rawMaterials: [],
   recipes: [],
@@ -87,6 +101,7 @@ const initialState: TraceabilityState = {
   customers: [],
   deliveries: [],
   factures: [],
+  settings: DEFAULT_SETTINGS,
   hasHydrated: false,
 };
 
@@ -152,6 +167,13 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       addFacture: (f) => set((s) => ({ factures: [...s.factures, f] })),
       deleteFacture: (id) =>
         set((s) => ({ factures: s.factures.filter((x) => x.id !== id) })),
+      updateFacture: (id, patch) =>
+        set((s) => ({
+          factures: s.factures.map((x) => (x.id === id ? { ...x, ...patch } : x)),
+        })),
+
+      updateSettings: (patch) =>
+        set((s) => ({ settings: { ...s.settings, ...patch } })),
 
       seedIfEmpty: () => {
         const s = get();
@@ -169,6 +191,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
             customers: seed.customers,
             deliveries: seed.deliveries,
             factures: seed.factures,
+            // settings conservés tels quels (paramètres entreprise)
           });
         }
       },
@@ -187,6 +210,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
           customers: seed.customers,
           deliveries: seed.deliveries,
           factures: seed.factures,
+          settings: DEFAULT_SETTINGS,
         });
       },
 
@@ -196,11 +220,28 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       name: STORAGE_KEY,
       // Version du schéma persisté ; incrémenter à chaque changement de forme
       // d'un type du domaine pour forcer migrate() à s'exécuter.
-      version: 1,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
       migrate: (persistedState, version) => {
-        // v1 est la baseline ; les phases ultérieures ajouteront des cas ici.
+        const state = persistedState as Record<string, unknown>;
         if (version === 1) {
+          // v1 → v2 : ajout du champ settings
+          return { ...state, settings: DEFAULT_SETTINGS } as TraceabilityStore;
+        }
+        if (version === 2) {
+          // v2 → v3 : ajout du champ paiement aux factures existantes + delaiPaiementJours aux settings
+          const factures = Array.isArray(state.factures)
+            ? (state.factures as Facture[]).map((f) =>
+                f.paiement ? f : { ...f, paiement: { statut: "en_attente" as const } }
+              )
+            : [];
+          const settings = {
+            ...(state.settings as AppSettings),
+            delaiPaiementJours: 30,
+          };
+          return { ...state, factures, settings } as TraceabilityStore;
+        }
+        if (version === 3) {
           return persistedState as TraceabilityStore;
         }
         // Version inconnue → renvoyer undefined pour que persist retombe sur
@@ -216,6 +257,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
         customers: state.customers,
         deliveries: state.deliveries,
         factures: state.factures,
+        settings: state.settings,
       }),
       onRehydrateStorage: () => (state, error) => {
         // Déclenché après que les données persistées sont remontées dans le store.

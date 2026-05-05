@@ -88,4 +88,17 @@ export type Facture = {
   totalHT: number;
   tva: number;
   totalTTC: number;
+  paiement: {
+    statut: "en_attente" | "payee_livraison" | "payee_virement";
+    datePaiement?: string; // YYYY-MM-DD, set at moment of marking
+  };
+};
+
+/** Paramètres de l'entreprise (IBAN, créancier QR-bill). */
+export type AppSettings = {
+  iban: string;
+  nomCreancier: string;
+  adresseLigne1: string;
+  adresseLigne2: string;
+  delaiPaiementJours: number; // default 30
 };
