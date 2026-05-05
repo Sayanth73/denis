@@ -54,14 +54,14 @@ Exceptions:
 
 | Role | Size | Weight | Line Height | Class |
 |------|------|--------|-------------|-------|
-| Body | 14px | 400 (regular) | 1.5 | `text-sm` |
-| Label | 14px | 500 (medium) | 1.5 | `text-sm font-medium` |
+| Body / Label | 14px | 400 (regular) | 1.5 | `text-sm` |
 | Section heading | 16px | 600 (semibold) | 1.2 | `text-base font-semibold` |
 | Muted / secondary text | 14px | 400 (regular) | 1.5 | `text-sm text-muted-foreground` |
 
 Notes:
+- Only 2 font weights: 400 (body, labels, muted) and 600 (section headings). Label distinction is structural, not typographic.
 - Section headings match existing pattern: `<h2 className="text-base font-semibold">` (from `app/parametres/page.tsx`) and `<h3 className="text-base font-semibold">` (from `app/clients/[id]/page.tsx`)
-- Table header text: `text-sm font-medium text-muted-foreground` — matches `app/factures/page.tsx`
+- Table header text: `text-sm text-muted-foreground` — drops `font-medium` to stay within 2-weight limit
 - Numeric values (CHF/kg): `tabular-nums` on readonly cells for aligned display
 - No Display size needed — this phase has no hero headings
 
