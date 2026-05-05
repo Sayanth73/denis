@@ -99,7 +99,13 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
     const store = useTraceabilityStore.getState();
     store.addDelivery(delivery);
 
-    const customer = store.customers.find((c) => c.id === delivery.customerId)!;
+    const customer = store.customers.find((c) => c.id === delivery.customerId);
+    if (!customer) {
+      toast.error("Client introuvable — impossible de générer la facture.");
+      return;
+    }
+    // Read factures.length after addDelivery so any concurrent mutation is reflected
+    const factureCount = useTraceabilityStore.getState().factures.length;
     const facture = buildFacture(
       delivery.id,
       delivery.customerId,
@@ -108,7 +114,7 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
       productionOrders,
       recipes,
       customer,
-      store.factures.length,
+      factureCount,
     );
     store.addFacture(facture);
 

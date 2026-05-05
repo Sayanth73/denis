@@ -223,7 +223,7 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       version: 4,
       storage: createJSONStorage(() => localStorage),
       migrate: (persistedState, version) => {
-        if (version > 4) return undefined;
+        if (version > 4) return persistedState as TraceabilityStore;
         let s = persistedState as Record<string, unknown>;
 
         if (version <= 1) {

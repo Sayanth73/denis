@@ -63,17 +63,13 @@ export function DeliveriesTable({
     if (!pendingDelivery) return;
     const store = useTraceabilityStore.getState();
 
-    for (const fpId of pendingDelivery.brochesLivrees) {
-      store.updateFinishedProduct(fpId, {
-        statut: "livree",
-        livraisonId: pendingDelivery.id,
-      });
-    }
-    store.updateDelivery(pendingDelivery.id, { statut: "livree" });
-
-    // Auto-generate facture via buildFacture (resolves per-client pricing)
+    // Build facture first — bail out before any mutation if this throws (e.g., missing customer)
     const { finishedProducts, productionOrders, recipes, factures, customers } = store;
-    const customer = customers.find((c) => c.id === pendingDelivery.customerId)!;
+    const customer = customers.find((c) => c.id === pendingDelivery.customerId);
+    if (!customer) {
+      toast.error("Client introuvable — impossible de générer la facture.");
+      return;
+    }
     const facture = buildFacture(
       pendingDelivery.id,
       pendingDelivery.customerId,
@@ -84,6 +80,14 @@ export function DeliveriesTable({
       customer,
       factures.length,
     );
+
+    for (const fpId of pendingDelivery.brochesLivrees) {
+      store.updateFinishedProduct(fpId, {
+        statut: "livree",
+        livraisonId: pendingDelivery.id,
+      });
+    }
+    store.updateDelivery(pendingDelivery.id, { statut: "livree" });
     store.addFacture(facture);
     const numeroFacture = facture.numeroFacture;
 
