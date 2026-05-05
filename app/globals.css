@@ -53,3 +53,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Print isolation (Phase 7 — Traçabilité PDF export) ── */
+/* Locked: 07-CONTEXT.md §Locked decisions */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-target,
+  .print-target * {
+    visibility: visible;
+  }
+  .print-target {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
