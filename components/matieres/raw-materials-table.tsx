@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronsUpDown, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import {
   Table,
   TableBody,
@@ -10,6 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { DlcBadge } from "@/components/dlc-badge";
 import {
   TYPE_LABELS,
@@ -18,9 +30,10 @@ import {
   deriveStatut,
 } from "@/lib/raw-materials";
 import { cn } from "@/lib/utils";
-import type { RawMaterial } from "@/lib/types";
+import { useTraceabilityStore } from "@/lib/store";
+import type { RawMaterial, ProductionOrder } from "@/lib/types";
 
-type RawMaterialsTableProps = { rows: RawMaterial[] };
+type RawMaterialsTableProps = { rows: RawMaterial[]; productionOrders: ProductionOrder[] };
 
 type SortKey =
   | "type"
@@ -43,8 +56,8 @@ const COLUMNS: Array<{
   { key: "fournisseur", label: "Fournisseur", width: "18%", align: "left" },
   { key: "numeroLotFournisseur", label: "N° lot fournisseur", width: "16%", align: "left" },
   { key: "quantite", label: "Quantité", width: "12%", align: "right" },
-  { key: "dlc", label: "DLC", width: "12%", align: "left" },
-  { key: "statut", label: "Statut", width: "10%", align: "left" },
+  { key: "dlc", label: "DLC", width: "10%", align: "left" },
+  { key: "statut", label: "Statut", width: "6%", align: "left" },
 ];
 
 function compare(a: RawMaterial, b: RawMaterial, key: SortKey, today: Date): number {
@@ -68,9 +81,10 @@ function compare(a: RawMaterial, b: RawMaterial, key: SortKey, today: Date): num
   }
 }
 
-export function RawMaterialsTable({ rows }: RawMaterialsTableProps) {
+export function RawMaterialsTable({ rows, productionOrders }: RawMaterialsTableProps) {
   const [sortKey, setSortKey] = React.useState<SortKey | null>(null);
   const [sortDir, setSortDir] = React.useState<SortDir>("asc");
+  const [pendingDeleteId, setPendingDeleteId] = React.useState<string | null>(null);
   const today = React.useMemo(() => new Date(), []);
 
   const sorted = React.useMemo(() => {
@@ -97,91 +111,154 @@ export function RawMaterialsTable({ rows }: RawMaterialsTableProps) {
     }
   }
 
+  function handleTrashClick(rm: RawMaterial) {
+    const isUsed = productionOrders.some((po) =>
+      po.matieresPremieresUtilisees.some((l) => l.rawMaterialId === rm.id)
+    );
+    if (isUsed) {
+      toast.error("Impossible de supprimer un lot déjà utilisé en production.");
+      return;
+    }
+    setPendingDeleteId(rm.id);
+  }
+
+  function handleDelete() {
+    if (!pendingDeleteId) return;
+    const rm = rows.find((r) => r.id === pendingDeleteId);
+    useTraceabilityStore.getState().deleteRawMaterial(pendingDeleteId);
+    toast.success(`Matière première supprimée — ${rm?.nom ?? ""}`);
+    setPendingDeleteId(null);
+  }
+
   return (
-    <div className="rounded-md border bg-background overflow-hidden">
-      <Table>
-        <colgroup>
-          {COLUMNS.map((c) => (
-            <col key={c.key} style={{ width: c.width }} />
-          ))}
-        </colgroup>
-        <TableHeader className="bg-zinc-50">
-          <TableRow>
-            {COLUMNS.map((c) => {
-              const active = sortKey === c.key;
-              const Indicator =
-                !active
-                  ? ChevronsUpDown
-                  : sortDir === "asc"
-                  ? ChevronUp
-                  : ChevronDown;
-              return (
-                <TableHead
-                  key={c.key}
-                  className={cn(
-                    "text-sm font-medium text-muted-foreground py-3 px-3 border-b border-border",
-                    c.align === "right" ? "text-right" : "text-left",
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleSort(c.key)}
+    <>
+      <div className="rounded-md border bg-background overflow-hidden">
+        <Table>
+          <colgroup>
+            {COLUMNS.map((c) => (
+              <col key={c.key} style={{ width: c.width }} />
+            ))}
+            <col style={{ width: "6%" }} />
+          </colgroup>
+          <TableHeader className="bg-zinc-50">
+            <TableRow>
+              {COLUMNS.map((c) => {
+                const active = sortKey === c.key;
+                const Indicator =
+                  !active
+                    ? ChevronsUpDown
+                    : sortDir === "asc"
+                    ? ChevronUp
+                    : ChevronDown;
+                return (
+                  <TableHead
+                    key={c.key}
                     className={cn(
-                      "inline-flex items-center gap-1",
-                      c.align === "right" ? "ml-auto" : "",
+                      "text-sm font-medium text-muted-foreground py-3 px-3 border-b border-border",
+                      c.align === "right" ? "text-right" : "text-left",
                     )}
                   >
-                    <span>{c.label}</span>
-                    <Indicator
-                      size={14}
-                      className={active ? "text-foreground" : "text-muted-foreground/60"}
-                      aria-hidden="true"
-                    />
-                  </button>
-                </TableHead>
+                    <button
+                      type="button"
+                      onClick={() => handleSort(c.key)}
+                      className={cn(
+                        "inline-flex items-center gap-1",
+                        c.align === "right" ? "ml-auto" : "",
+                      )}
+                    >
+                      <span>{c.label}</span>
+                      <Indicator
+                        size={14}
+                        className={active ? "text-foreground" : "text-muted-foreground/60"}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </TableHead>
+                );
+              })}
+              <TableHead className="py-3 px-3 border-b border-border" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sorted.map((rm) => {
+              const statut = deriveStatut(rm, today);
+              return (
+                <TableRow
+                  key={rm.id}
+                  className="border-b border-border hover:bg-zinc-50 min-h-9"
+                >
+                  <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
+                    {TYPE_LABELS[rm.type]}
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-sm truncate">{rm.nom}</TableCell>
+                  <TableCell className="py-2 px-3 text-sm truncate">
+                    {rm.fournisseur}
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-sm font-mono whitespace-nowrap">
+                    {rm.numeroLotFournisseur}
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-sm tabular-nums whitespace-nowrap text-right">
+                    {rm.quantiteRestante} / {rm.quantiteRecue} kg
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
+                    <DlcBadge value={rm.dlc} />
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
+                    <span
+                      className={cn(
+                        "inline-flex items-center px-2 py-0.5 rounded-md border text-xs font-medium",
+                        STATUT_CLASSES[statut],
+                      )}
+                    >
+                      {STATUT_LABELS[statut]}
+                    </span>
+                  </TableCell>
+                  <TableCell className="py-2 px-3 text-right">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      type="button"
+                      aria-label="Supprimer"
+                      className="text-destructive hover:text-destructive"
+                      onClick={() => handleTrashClick(rm)}
+                    >
+                      <Trash2 size={14} aria-hidden="true" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
               );
             })}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {sorted.map((rm) => {
-            const statut = deriveStatut(rm, today);
-            return (
-              <TableRow
-                key={rm.id}
-                className="border-b border-border hover:bg-zinc-50 min-h-9"
-              >
-                <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
-                  {TYPE_LABELS[rm.type]}
-                </TableCell>
-                <TableCell className="py-2 px-3 text-sm truncate">{rm.nom}</TableCell>
-                <TableCell className="py-2 px-3 text-sm truncate">
-                  {rm.fournisseur}
-                </TableCell>
-                <TableCell className="py-2 px-3 text-sm font-mono whitespace-nowrap">
-                  {rm.numeroLotFournisseur}
-                </TableCell>
-                <TableCell className="py-2 px-3 text-sm tabular-nums whitespace-nowrap text-right">
-                  {rm.quantiteRestante} / {rm.quantiteRecue} kg
-                </TableCell>
-                <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
-                  <DlcBadge value={rm.dlc} />
-                </TableCell>
-                <TableCell className="py-2 px-3 text-sm whitespace-nowrap">
-                  <span
-                    className={cn(
-                      "inline-flex items-center px-2 py-0.5 rounded-md border text-xs font-medium",
-                      STATUT_CLASSES[statut],
-                    )}
-                  >
-                    {STATUT_LABELS[statut]}
-                  </span>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
+          </TableBody>
+        </Table>
+      </div>
+
+      <AlertDialog
+        open={pendingDeleteId !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingDeleteId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Supprimer la matière première</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div>
+                <p>Êtes-vous sûr de vouloir supprimer {rows.find((r) => r.id === pendingDeleteId)?.nom} ?</p>
+                <p className="mt-1">Cette action est irréversible.</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={handleDelete}
+            >
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

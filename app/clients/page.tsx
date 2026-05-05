@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Plus, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/empty-state";
 import { ClientsTable } from "@/components/clients/clients-table";
 import { ClientDialog } from "@/components/clients/client-dialog";
@@ -16,6 +17,12 @@ export default function ClientsPage() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogMode, setDialogMode] = React.useState<"create" | "edit">("create");
   const [editTarget, setEditTarget] = React.useState<Customer | undefined>(undefined);
+  const [query, setQuery] = React.useState("");
+
+  const filtered = React.useMemo(() => {
+    const q = query.toLowerCase();
+    return customers.filter((c) => c.nom.toLowerCase().includes(q));
+  }, [customers, query]);
 
   if (!hasHydrated) {
     return (
@@ -53,6 +60,15 @@ export default function ClientsPage() {
         </Button>
       </div>
 
+      <div className="mb-4">
+        <Input
+          placeholder="Rechercher..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-64"
+        />
+      </div>
+
       {isEmpty ? (
         <EmptyState
           icon={Users}
@@ -60,8 +76,12 @@ export default function ClientsPage() {
           body="Ajoutez votre premier client restaurant."
           cta={{ label: "+ Nouveau client", onClick: openCreate, icon: Plus }}
         />
+      ) : filtered.length > 0 ? (
+        <ClientsTable customers={filtered} onEdit={openEdit} />
       ) : (
-        <ClientsTable customers={customers} onEdit={openEdit} />
+        <p className="text-sm text-muted-foreground py-8 text-center">
+          Aucun résultat pour « {query} ».
+        </p>
       )}
 
       <ClientDialog

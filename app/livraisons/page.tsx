@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Plus, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/empty-state";
 import { DeliveriesTable } from "@/components/livraisons/deliveries-table";
 import { NewDeliveryDialog } from "@/components/livraisons/new-delivery-dialog";
@@ -14,6 +15,15 @@ export default function LivraisonsPage() {
   const customers = useTraceabilityStore((s) => s.customers);
   const hasHydrated = useTraceabilityStore((s) => s.hasHydrated);
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [query, setQuery] = React.useState("");
+
+  const filtered = React.useMemo(() => {
+    const q = query.toLowerCase();
+    return deliveries.filter((d) => {
+      const customerName = customers.find((c) => c.id === d.customerId)?.nom ?? "";
+      return customerName.toLowerCase().includes(q) || d.date.includes(query);
+    });
+  }, [deliveries, customers, query]);
 
   // Hydration guard: prevents empty-state flicker before persist middleware
   // rehydrates localStorage. Matches Phase 3 + Phase 4 pattern exactly.
@@ -41,6 +51,15 @@ export default function LivraisonsPage() {
         </Button>
       </div>
 
+      <div className="mb-4">
+        <Input
+          placeholder="Rechercher..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-64"
+        />
+      </div>
+
       {isEmpty ? (
         <EmptyState
           icon={Truck}
@@ -52,12 +71,16 @@ export default function LivraisonsPage() {
             icon: Plus,
           }}
         />
-      ) : (
+      ) : filtered.length > 0 ? (
         <DeliveriesTable
-          deliveries={deliveries}
+          deliveries={filtered}
           finishedProducts={finishedProducts}
           customers={customers}
         />
+      ) : (
+        <p className="text-sm text-muted-foreground py-8 text-center">
+          Aucun résultat pour « {query} ».
+        </p>
       )}
 
       <NewDeliveryDialog open={dialogOpen} onOpenChange={setDialogOpen} />
