@@ -17,6 +17,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTraceabilityStore } from "@/lib/store";
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
 
 const settingsSchema = z.object({
   iban: z.string().max(34, "IBAN trop long").optional().or(z.literal("")),
@@ -41,6 +49,9 @@ export default function ParametresPage() {
   const settings = useTraceabilityStore((s) => s.settings);
   const updateSettings = useTraceabilityStore((s) => s.updateSettings);
   const hasHydrated = useTraceabilityStore((s) => s.hasHydrated);
+  const recipes = useTraceabilityStore((s) => s.recipes);
+  const [localPrices, setLocalPrices] = React.useState<Record<string, string>>({});
+  const [prixError, setPrixError] = React.useState<string | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(settingsSchema),
@@ -53,6 +64,33 @@ export default function ParametresPage() {
       delaiPaiementJours: settings.delaiPaiementJours,
     },
   });
+
+  React.useEffect(() => {
+    if (!hasHydrated) return;
+    const init: Record<string, string> = {};
+    for (const r of recipes) {
+      init[r.id] = r.prixParDefautHT.toString();
+    }
+    setLocalPrices(init);
+  }, [hasHydrated]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Intentionally omits `recipes` — re-initializing on every recipe update would
+  // discard in-progress edits. One-time initialization after store hydration only.
+
+  function handleSaveGrille() {
+    setPrixError(null);
+    for (const r of recipes) {
+      const val = localPrices[r.id] ?? "";
+      if (val === "" || isNaN(Number(val)) || Number(val) < 0) {
+        setPrixError(`Prix invalide pour ${r.nom}. Saisissez un nombre ≥ 0.`);
+        return;
+      }
+    }
+    const { updateRecipe } = useTraceabilityStore.getState();
+    for (const r of recipes) {
+      updateRecipe(r.id, { prixParDefautHT: Number(localPrices[r.id]) });
+    }
+    toast.success("Grille tarifaire mise à jour");
+  }
 
   function onSubmit(values: FormValues) {
     updateSettings({
@@ -175,6 +213,59 @@ export default function ParametresPage() {
           <Button type="submit">Enregistrer</Button>
         </form>
       </Form>
+
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-base font-semibold">Grille tarifaire</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Prix par défaut au kg HT pour chaque recette. Utilisé lors de la
+            génération automatique des factures.
+          </p>
+        </div>
+
+        <div className="rounded-md border bg-background overflow-hidden">
+          <Table>
+            <TableHeader className="bg-zinc-50">
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="text-sm font-medium text-muted-foreground py-3 px-3 border-b border-border text-left">
+                  Recette
+                </TableHead>
+                <TableHead className="text-sm font-medium text-muted-foreground py-3 px-3 border-b border-border text-right">
+                  Prix par défaut (CHF/kg HT)
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {recipes.map((recipe) => (
+                <TableRow key={recipe.id} className="border-b border-border hover:bg-transparent">
+                  <TableCell className="py-2 px-3 text-sm">{recipe.nom}</TableCell>
+                  <TableCell className="py-2 px-3 text-right">
+                    <Input
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      placeholder="25.00"
+                      className="w-24 text-right tabular-nums"
+                      value={localPrices[recipe.id] ?? ""}
+                      onChange={(e) =>
+                        setLocalPrices((prev) => ({ ...prev, [recipe.id]: e.target.value }))
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        {prixError && (
+          <p className="text-sm text-destructive">{prixError}</p>
+        )}
+
+        <Button type="button" onClick={handleSaveGrille}>
+          Enregistrer
+        </Button>
+      </div>
     </div>
   );
 }
