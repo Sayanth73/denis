@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -32,6 +33,7 @@ type AllocationsByIngredient = Record<string, Record<string, number>>;
 type ProductionWizardProps = { open: boolean; onOpenChange: (next: boolean) => void };
 
 export function ProductionWizard({ open, onOpenChange }: ProductionWizardProps) {
+  const router = useRouter();
   const recipes = useTraceabilityStore((s) => s.recipes);
   const rawMaterials = useTraceabilityStore((s) => s.rawMaterials);
   const finishedProducts = useTraceabilityStore((s) => s.finishedProducts);
@@ -110,7 +112,17 @@ export function ProductionWizard({ open, onOpenChange }: ProductionWizardProps) 
     }
     store.addProductionOrder(order);
     for (const fp of brochesProduites) store.addFinishedProduct(fp);
-    toast.success(`Production confirmée — ${nombreBroches} broches (${selectedRecipe.nom})`);
+    const firstBrocheLot = brochesProduites[0]?.numeroLotInterne ?? "";
+    toast.success(`Production confirmée — ${nombreBroches} broches (${selectedRecipe.nom})`, {
+      ...(firstBrocheLot
+        ? {
+            action: {
+              label: "Voir la traçabilité",
+              onClick: () => router.push(`/tracabilite?lot=${firstBrocheLot}`),
+            },
+          }
+        : {}),
+    });
     handleClose();
   }
 
