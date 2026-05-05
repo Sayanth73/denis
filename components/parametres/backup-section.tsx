@@ -15,25 +15,30 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useTraceabilityStore } from "@/lib/store";
+import type { RawMaterial, Recipe, ProductionOrder, FinishedProduct, Customer, Delivery, Facture, AppSettings } from "@/lib/types";
 
 type StoreSnapshot = {
-  rawMaterials: unknown;
-  recipes: unknown;
-  productionOrders: unknown;
-  finishedProducts: unknown;
-  customers: unknown;
-  deliveries: unknown;
-  factures: unknown;
-  settings: unknown;
+  rawMaterials: RawMaterial[];
+  recipes: Recipe[];
+  productionOrders: ProductionOrder[];
+  finishedProducts: FinishedProduct[];
+  customers: Customer[];
+  deliveries: Delivery[];
+  factures: Facture[];
+  settings: AppSettings;
 };
 
 function isValidSnapshot(obj: unknown): obj is StoreSnapshot {
   if (typeof obj !== "object" || obj === null) return false;
-  const keys: (keyof StoreSnapshot)[] = [
+  const r = obj as Record<string, unknown>;
+  const collectionKeys = [
     "rawMaterials", "recipes", "productionOrders", "finishedProducts",
-    "customers", "deliveries", "factures", "settings",
-  ];
-  return keys.every((k) => k in (obj as Record<string, unknown>));
+    "customers", "deliveries", "factures",
+  ] as const;
+  return (
+    collectionKeys.every((k) => Array.isArray(r[k])) &&
+    typeof r.settings === "object" && r.settings !== null
+  );
 }
 
 export function BackupSection() {
@@ -57,15 +62,23 @@ export function BackupSection() {
     const a = document.createElement("a");
     a.href = url;
     a.download = `tracekebab-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
     toast.success("Sauvegarde téléchargée");
   }
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Fichier trop volumineux (maximum 5 Mo).");
+      e.target.value = "";
+      return;
+    }
     const reader = new FileReader();
+    reader.onerror = () => toast.error("Impossible de lire le fichier.");
     reader.onload = (ev) => {
       try {
         const parsed = JSON.parse(ev.target?.result as string);
@@ -84,18 +97,23 @@ export function BackupSection() {
 
   function handleConfirmImport() {
     if (!pendingImport) return;
-    useTraceabilityStore.setState({
-      rawMaterials: pendingImport.rawMaterials as never,
-      recipes: pendingImport.recipes as never,
-      productionOrders: pendingImport.productionOrders as never,
-      finishedProducts: pendingImport.finishedProducts as never,
-      customers: pendingImport.customers as never,
-      deliveries: pendingImport.deliveries as never,
-      factures: pendingImport.factures as never,
-      settings: pendingImport.settings as never,
-    }, false);
-    toast.success("Données restaurées");
-    setPendingImport(null);
+    try {
+      useTraceabilityStore.setState({
+        rawMaterials: pendingImport.rawMaterials,
+        recipes: pendingImport.recipes,
+        productionOrders: pendingImport.productionOrders,
+        finishedProducts: pendingImport.finishedProducts,
+        customers: pendingImport.customers,
+        deliveries: pendingImport.deliveries,
+        factures: pendingImport.factures,
+        settings: pendingImport.settings,
+      }, false);
+      toast.success("Données restaurées");
+    } catch {
+      toast.error("Erreur lors de la restauration.");
+    } finally {
+      setPendingImport(null);
+    }
   }
 
   return (
