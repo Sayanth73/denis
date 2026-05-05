@@ -47,7 +47,10 @@ Plans:
   2. Each recipe row has an "Éditer" action; saving changes to name or price updates the store immediately and is confirmed by a toast.
   3. Attempting to delete a recipe referenced by at least one production order shows a blocking message (no confirmation dialog, no deletion).
   4. Attempting to delete an unreferenced recipe opens an AlertDialog for confirmation; cancelling leaves the recipe untouched; confirming removes it from the store and from all tarif grids.
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 17-01-PLAN.md — Rewrite RecettesTab: create/edit dialogs + delete guard with cascade
+
 **UI hint**: yes
 
 ### Phase 18: Export PDF Facture
@@ -81,6 +84,6 @@ Phases execute in numeric order: 16 → 17 → 18 → 19
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 16. UX Polish — Dates suisses, confirmations, recherche | 1/1 | Complete | 2026-05-05 |
-| 17. CRUD Recettes | 0/? | Not started | - |
+| 17. CRUD Recettes | 0/1 | Not started | - |
 | 18. Export PDF Facture | 0/? | Not started | - |
 | 19. Sauvegarde et restauration JSON | 0/? | Not started | - |
