@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useTraceabilityStore } from "@/lib/store";
+import { BackupSection } from "@/components/parametres/backup-section";
 import {
   Table,
   TableBody,
@@ -266,6 +267,8 @@ export default function ParametresPage() {
           Enregistrer
         </Button>
       </div>
+
+      <BackupSection />
     </div>
   );
 }
