@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 
 ## Current Position
 
-Phase: 19 (complete)
-Plan: 19-01 (complete)
-Status: ALL PHASES COMPLETE — Milestone v0.4 usabilite-et-exports delivered
-Last activity: 2026-05-05 — Phase 19 plan 01 executed: JSON backup/restore in Paramètres
+Phase: 20 (complete)
+Plan: 20-01 (complete)
+Status: Phase 20 plan 01 complete — Mobile UX iPhone responsive
+Last activity: 2026-05-05 — Phase 20 plan 01 executed: Mobile UX — Sheet nav, table overflow, dialog widths
 
 ## Progress Bar
 
@@ -38,6 +38,7 @@ Phase 16 [##########] 100% (1/1 plans)
 Phase 17 [##########] 100% (1/1 plans)
 Phase 18 [##########] 100% (1/1 plans)
 Phase 19 [##########] 100% (1/1 plans)
+Phase 20 [##########] 100% (1/1 plans)
 ```
 
 ## Performance Metrics
@@ -80,6 +81,9 @@ Decisions are logged in PROJECT.md Key Decisions table. 18 decisions were locked
 - DEC-16-01-hooks-before-early-return: useMemo/useState hooks declared before `if (!hasHydrated)` early return in all pages to satisfy React rules-of-hooks
 - DEC-16-02-no-results-instead-pattern: When filter returns zero rows on non-empty store, render `<p>Aucun résultat…</p>` instead of empty table (avoids empty border artifact)
 - DEC-16-03-date-audit-zero-violations: All date renders already use formatDate() or DlcBadge — zero fixes needed; no formatDate call sites changed
+- DEC-20-01-mobile-nav-event-delegation: Sheet close uses nav onClick event delegation — no onClick added to NavItemProps
+- DEC-20-02-table-overflow-x-auto: overflow-x-auto + overflow-hidden coexist on table wrapper; x-axis scrolls, y-axis clipped, rounded-md preserved
+- DEC-20-03-dialog-calc-width: mx-4 w-[calc(100%-2rem)] prepended to DialogContent className for mobile; sm:max-w-* takes over at 640px+
 
 Key constraints for v0.4:
 
@@ -124,6 +128,6 @@ Items acknowledged and carried forward from previous milestones:
 
 ## Session Continuity
 
-Last session: 2026-05-05T16:16:18.146Z
-Stopped at: context exhaustion at 75% (2026-05-05)
+Last session: 2026-05-05T20:43:00Z
+Stopped at: Completed 20-01-PLAN.md
 Resume file: None

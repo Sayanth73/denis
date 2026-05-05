@@ -19,7 +19,7 @@ Phases execute strictly in numeric order. Phases 17–19 are independent of each
 - [x] **Phase 17: CRUD Recettes** — Add create, edit, and delete to the recipes screen; guard deletion when the recipe is referenced by a production order; persist changes immediately to the store.
 - [x] **Phase 18: Export PDF Facture** — Add an "Exporter PDF" button to the facture detail page using react-to-print (already installed); output covers client details, line items, totals HT/TTC, and payment deadline.
 - [x] **Phase 19: Sauvegarde et restauration JSON** — Add export (download full store as JSON) and import (file picker + confirmation → replace store) to Paramètres.
-- [ ] **Phase 20: Mobile UX — iPhone Responsive** — Make every screen usable on iPhone (Safari, 390px viewport): slide-out navigation drawer on mobile, horizontally-scrollable tables, responsive form dialogs, and no fixed-offset overflow on any page.
+- [x] **Phase 20: Mobile UX — iPhone Responsive** — Make every screen usable on iPhone (Safari, 390px viewport): slide-out navigation drawer on mobile, horizontally-scrollable tables, responsive form dialogs, and no fixed-offset overflow on any page.
 
 ## Phase Details
 
@@ -86,7 +86,10 @@ Plans:
   2. Every data table (livraisons, clients, matières premières, factures, production orders, stock broches) is horizontally scrollable on 390px without clipping the table border or action buttons.
   3. All dialogs (create/edit for clients, matières premières, recettes, livraisons, production wizard) display correctly within a 390px viewport — no fields cut off, submit button accessible without horizontal scroll.
   4. On desktop (≥768px), the layout is identical to the current design — sidebar visible, content offset by 240px, no regression.
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [x] 20-01-PLAN.md — Sheet mobile nav, overflow-x-auto tables, mx-4 dialog widths
+
 **UI hint**: yes
 
 ## Progress
@@ -102,4 +105,4 @@ Phases execute in numeric order: 16 → 17 → 18 → 19
 | 17. CRUD Recettes | 1/1 | Complete | 2026-05-05 |
 | 18. Export PDF Facture | 1/1 | Complete | 2026-05-05 |
 | 19. Sauvegarde et restauration JSON | 1/1 | Complete | 2026-05-05 |
-| 20. Mobile UX — iPhone Responsive | 0/? | Not started | - |
+| 20. Mobile UX — iPhone Responsive | 1/1 | Complete | 2026-05-05 |
