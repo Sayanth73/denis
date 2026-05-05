@@ -1,7 +1,7 @@
 ---
 phase: 16
 slug: ux-polish
-status: draft
+status: approved
 shadcn_initialized: true
 preset: "new-york / neutral / cssVariables"
 created: "2026-05-05"
