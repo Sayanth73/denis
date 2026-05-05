@@ -85,6 +85,7 @@ export function ClientDialog({
         adresse: values.adresse.trim(),
         telephone: values.telephone.trim(),
         email: values.email?.trim() || undefined,
+        tarifs: [],
       };
       store.addCustomer(c);
       toast.success("Client ajouté — " + values.nom.trim());
