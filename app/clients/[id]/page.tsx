@@ -30,6 +30,7 @@ export default function ClientDetailPage() {
   const finishedProducts = useTraceabilityStore((s) => s.finishedProducts);
   const productionOrders = useTraceabilityStore((s) => s.productionOrders);
   const rawMaterials = useTraceabilityStore((s) => s.rawMaterials);
+  const recipes = useTraceabilityStore((s) => s.recipes);
   const hasHydrated = useTraceabilityStore((s) => s.hasHydrated);
 
   const [expandedDeliveryId, setExpandedDeliveryId] = React.useState<string | null>(null);
@@ -144,6 +145,7 @@ export default function ClientDetailPage() {
                     finishedProducts={finishedProducts}
                     productionOrders={productionOrders}
                     rawMaterials={rawMaterials}
+                    recipes={recipes}
                   />
                 )}
               </div>

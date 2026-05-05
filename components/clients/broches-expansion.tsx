@@ -14,11 +14,13 @@ import {
 import { DlcBadge } from "@/components/dlc-badge";
 import { getBrochesForDelivery, getRawMaterialsForBroche } from "@/lib/clients";
 import { TYPE_LABELS } from "@/lib/raw-materials";
+import { getRecipeForBroche } from "@/lib/finished-products";
 import type {
   Delivery,
   FinishedProduct,
   ProductionOrder,
   RawMaterial,
+  Recipe,
 } from "@/lib/types";
 
 // ---------------------------------------------------------------------------
@@ -105,6 +107,7 @@ type BrochesExpansionProps = {
   finishedProducts: FinishedProduct[];
   productionOrders: ProductionOrder[];
   rawMaterials: RawMaterial[];
+  recipes: Recipe[];
 };
 
 export function BrochesExpansion({
@@ -112,6 +115,7 @@ export function BrochesExpansion({
   finishedProducts,
   productionOrders,
   rawMaterials,
+  recipes,
 }: BrochesExpansionProps): JSX.Element {
   const [expandedBrocheId, setExpandedBrocheId] = React.useState<string | null>(null);
 
@@ -125,15 +129,19 @@ export function BrochesExpansion({
     <div className="border-t bg-zinc-50">
       <Table>
         <colgroup>
-          <col style={{ width: "40%" }} />
+          <col style={{ width: "30%" }} />
+          <col style={{ width: "25%" }} />
+          <col style={{ width: "15%" }} />
           <col style={{ width: "18%" }} />
-          <col style={{ width: "22%" }} />
-          <col style={{ width: "20%" }} />
+          <col style={{ width: "12%" }} />
         </colgroup>
         <TableHeader>
           <TableRow className="bg-zinc-100">
             <TableHead className="text-xs font-medium text-muted-foreground py-2 px-4 border-b border-border">
               N° lot interne
+            </TableHead>
+            <TableHead className="text-xs font-medium text-muted-foreground py-2 px-4 border-b border-border">
+              Recette
             </TableHead>
             <TableHead className="text-xs font-medium text-muted-foreground py-2 px-4 border-b border-border">
               Poids
@@ -145,7 +153,9 @@ export function BrochesExpansion({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {broches.map((fp) => (
+          {broches.map((fp) => {
+            const recipe = getRecipeForBroche(fp, productionOrders, recipes);
+            return (
             <React.Fragment key={fp.id}>
               <TableRow className="border-b border-border last:border-b-0">
                 <TableCell className="py-2 px-4 text-sm">
@@ -156,6 +166,9 @@ export function BrochesExpansion({
                   >
                     {fp.numeroLotInterne}
                   </Link>
+                </TableCell>
+                <TableCell className="py-2 px-4 text-sm">
+                  {recipe?.nom ?? "—"}
                 </TableCell>
                 <TableCell className="py-2 px-4 text-sm">
                   <span className="tabular-nums">{fp.poids} kg</span>
@@ -177,7 +190,7 @@ export function BrochesExpansion({
               </TableRow>
               {expandedBrocheId === fp.id && (
                 <TableRow>
-                  <TableCell colSpan={4} className="p-0">
+                  <TableCell colSpan={5} className="p-0">
                     <UpstreamRMList
                       broche={fp}
                       productionOrders={productionOrders}
@@ -187,7 +200,8 @@ export function BrochesExpansion({
                 </TableRow>
               )}
             </React.Fragment>
-          ))}
+            );
+          })}
         </TableBody>
       </Table>
     </div>
