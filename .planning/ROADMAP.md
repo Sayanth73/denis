@@ -68,7 +68,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. With localStorage cleared after seeding, removing all rows shows the empty state "Aucune matière première en stock — réceptionnez votre premier lot".
 **Plans**: 2 plans
 - [x] 03-01-PLAN.md — Install shadcn primitives (table, dialog, input, select, label, form, badge, calendar, popover, command) + react-hook-form/zod/date-fns peer-deps; build reusable DlcBadge, EmptyState, DatePicker, Combobox + lib/raw-materials.ts helpers.
-- [ ] 03-02-PLAN.md — Build sortable RawMaterialsTable + ReceptionDialog (9-field react-hook-form + zod schema with locked French validation) + wire app/matieres-premieres/page.tsx with header CTA and empty-state fallback; human-verify checkpoint.
+- [x] 03-02-PLAN.md — Build sortable RawMaterialsTable + ReceptionDialog (9-field react-hook-form + zod schema with locked French validation) + wire app/matieres-premieres/page.tsx with header CTA and empty-state fallback; human-verify checkpoint.
 **UI hint**: yes
 
 ### Phase 4: Production Screen
