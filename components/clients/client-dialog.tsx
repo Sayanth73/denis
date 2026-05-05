@@ -66,7 +66,7 @@ export function ClientDialog({
           : { nom: "", adresse: "", telephone: "", email: "" },
       );
     }
-  }, [open, mode, client]);
+  }, [open, mode, client, form]);
 
   function handleOpenChange(next: boolean) {
     if (!next) {

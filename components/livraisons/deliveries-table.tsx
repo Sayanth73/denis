@@ -62,7 +62,6 @@ export function DeliveriesTable({
   function handleConfirmLivree() {
     if (!pendingDelivery) return;
     const store = useTraceabilityStore.getState();
-    const N = pendingDelivery.brochesLivrees.length;
 
     for (const fpId of pendingDelivery.brochesLivrees) {
       store.updateFinishedProduct(fpId, {
