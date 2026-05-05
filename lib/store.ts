@@ -220,10 +220,10 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
       name: STORAGE_KEY,
       // Version du schéma persisté ; incrémenter à chaque changement de forme
       // d'un type du domaine pour forcer migrate() à s'exécuter.
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => localStorage),
       migrate: (persistedState, version) => {
-        if (version > 3) return undefined;
+        if (version > 4) return undefined;
         let s = persistedState as Record<string, unknown>;
 
         if (version <= 1) {
@@ -243,6 +243,21 @@ export const useTraceabilityStore = create<TraceabilityStore>()(
             delaiPaiementJours: (s.settings as AppSettings)?.delaiPaiementJours ?? 30,
           };
           s = { ...s, factures, settings };
+        }
+
+        if (version <= 3) {
+          // v3 → v4 : add prixParDefautHT to existing recipes and tarifs to existing customers
+          const recipes = Array.isArray(s.recipes)
+            ? (s.recipes as Recipe[]).map((r) =>
+                "prixParDefautHT" in r ? r : { ...(r as object), prixParDefautHT: 25 } as Recipe
+              )
+            : [];
+          const customers = Array.isArray(s.customers)
+            ? (s.customers as Customer[]).map((c) =>
+                "tarifs" in c ? c : { ...(c as object), tarifs: [] } as unknown as Customer
+              )
+            : [];
+          s = { ...s, recipes, customers };
         }
 
         return s as TraceabilityStore;
