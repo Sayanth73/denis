@@ -66,3 +66,26 @@ export type Delivery = {
   statut: "preparee" | "livree";
   notes?: string;
 };
+
+/** Ligne de facture correspondant à une broche livrée. */
+export type FactureLigne = {
+  brocheId: string;
+  numeroLot: string;
+  recetteNom: string;
+  poidsKg: number;
+  prixUnitaireHT: number;
+  montantHT: number;
+};
+
+/** Facture auto-générée lors de la confirmation d'une livraison. */
+export type Facture = {
+  id: string;
+  numeroFacture: string;
+  livraisonId: string;
+  clientId: string;
+  dateFacture: string;
+  lignes: FactureLigne[];
+  totalHT: number;
+  tva: number;
+  totalTTC: number;
+};
