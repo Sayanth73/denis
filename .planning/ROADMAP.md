@@ -13,7 +13,7 @@ v0.3 introduces a full pricing layer that eliminates the hardcoded 25 CHF/kg rat
 **Phase Numbering:**
 - Phases 14-15 continue the v0.2 numbering sequence (1-13 are complete).
 
-- [ ] **Phase 14: Data Layer — Tarification** — Extend types (`prixParDefautHT` on Recipe, `tarifs` on Customer), bump store to v4 with migration (recipes default to 25 CHF/kg, customers get empty tarifs array), update `buildFacture` to resolve price via client override then recipe default.
+- [x] **Phase 14: Data Layer — Tarification** — Extend types (`prixParDefautHT` on Recipe, `tarifs` on Customer), bump store to v4 with migration (recipes default to 25 CHF/kg, customers get empty tarifs array), update `buildFacture` to resolve price via client override then recipe default. (completed 2026-05-05)
 - [ ] **Phase 15: UI Layer — Grille tarifaire & Tarifs spéciaux** — "Grille tarifaire" section in `/parametres` (editable default price per recipe), "Tarifs spéciaux" section on `/clients/[id]` (per-recipe override table with inline editing), all wired to the store actions from Phase 14.
 
 ## Phase Details
@@ -51,5 +51,5 @@ Phases execute in numeric order: 14 → 15
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 14. Data Layer — Tarification | 0/? | Not started | - |
+| 14. Data Layer — Tarification | 1/1 | Complete    | 2026-05-05 |
 | 15. UI Layer — Grille tarifaire & Tarifs spéciaux | 0/? | Not started | - |
