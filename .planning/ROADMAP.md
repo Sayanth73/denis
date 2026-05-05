@@ -16,9 +16,10 @@ Phases execute strictly in numeric order. Phases 17–19 are independent of each
 - Phases 16-19 continue the v0.3 numbering sequence (1-15 are complete).
 
 - [x] **Phase 16: UX Polish — Dates suisses, confirmations, recherche** — Replace ISO dates with DD.MM.YYYY throughout; add AlertDialog before deleting a client or a matière première; add search/filter inputs above the livraisons, clients, and matières premières tables.
-- [ ] **Phase 17: CRUD Recettes** — Add create, edit, and delete to the recipes screen; guard deletion when the recipe is referenced by a production order; persist changes immediately to the store.
-- [ ] **Phase 18: Export PDF Facture** — Add an "Exporter PDF" button to the facture detail page using react-to-print (already installed); output covers client details, line items, totals HT/TTC, and payment deadline.
-- [ ] **Phase 19: Sauvegarde et restauration JSON** — Add export (download full store as JSON) and import (file picker + confirmation → replace store) to Paramètres.
+- [x] **Phase 17: CRUD Recettes** — Add create, edit, and delete to the recipes screen; guard deletion when the recipe is referenced by a production order; persist changes immediately to the store.
+- [x] **Phase 18: Export PDF Facture** — Add an "Exporter PDF" button to the facture detail page using react-to-print (already installed); output covers client details, line items, totals HT/TTC, and payment deadline.
+- [x] **Phase 19: Sauvegarde et restauration JSON** — Add export (download full store as JSON) and import (file picker + confirmation → replace store) to Paramètres.
+- [ ] **Phase 20: Mobile UX — iPhone Responsive** — Make every screen usable on iPhone (Safari, 390px viewport): slide-out navigation drawer on mobile, horizontally-scrollable tables, responsive form dialogs, and no fixed-offset overflow on any page.
 
 ## Phase Details
 
@@ -49,7 +50,7 @@ Plans:
   4. Attempting to delete an unreferenced recipe opens an AlertDialog for confirmation; cancelling leaves the recipe untouched; confirming removes it from the store and from all tarif grids.
 **Plans**: 1 plan
 Plans:
-- [ ] 17-01-PLAN.md — Rewrite RecettesTab: create/edit dialogs + delete guard with cascade
+- [x] 17-01-PLAN.md — Rewrite RecettesTab: create/edit dialogs + delete guard with cascade
 
 **UI hint**: yes
 
@@ -76,7 +77,21 @@ Plans:
 **Plans**: TBD
 **UI hint**: yes
 
+### Phase 20: Mobile UX — iPhone Responsive
+**Goal**: Every page of the app is fully usable on iPhone (Safari Mobile, 390px viewport) — no horizontal scrolling, no hidden content, no broken layouts.
+**Depends on**: Phase 19
+**Requirements**: REQ-v5-mobile-nav, REQ-v5-mobile-tables, REQ-v5-mobile-dialogs, REQ-v5-mobile-layout
+**Success Criteria** (what must be TRUE):
+  1. On a 390px viewport, the sidebar is hidden; a hamburger button in the header opens a Sheet drawer containing the full navigation — the current page is reachable from the drawer.
+  2. Every data table (livraisons, clients, matières premières, factures, production orders, stock broches) is horizontally scrollable on 390px without clipping the table border or action buttons.
+  3. All dialogs (create/edit for clients, matières premières, recettes, livraisons, production wizard) display correctly within a 390px viewport — no fields cut off, submit button accessible without horizontal scroll.
+  4. On desktop (≥768px), the layout is identical to the current design — sidebar visible, content offset by 240px, no regression.
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
+
+**Milestone v0.4 COMPLETE — 2026-05-05**
 
 **Execution Order:**
 Phases execute in numeric order: 16 → 17 → 18 → 19
@@ -84,6 +99,7 @@ Phases execute in numeric order: 16 → 17 → 18 → 19
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 16. UX Polish — Dates suisses, confirmations, recherche | 1/1 | Complete | 2026-05-05 |
-| 17. CRUD Recettes | 0/1 | Not started | - |
-| 18. Export PDF Facture | 0/? | Not started | - |
-| 19. Sauvegarde et restauration JSON | 0/? | Not started | - |
+| 17. CRUD Recettes | 1/1 | Complete | 2026-05-05 |
+| 18. Export PDF Facture | 1/1 | Complete | 2026-05-05 |
+| 19. Sauvegarde et restauration JSON | 1/1 | Complete | 2026-05-05 |
+| 20. Mobile UX — iPhone Responsive | 0/? | Not started | - |
