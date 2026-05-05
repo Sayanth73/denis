@@ -44,8 +44,8 @@ export default function LivraisonsPage() {
       {isEmpty ? (
         <EmptyState
           icon={Truck}
-          heading="Aucune livraison"
-          body="Préparez votre première livraison pour commencer le suivi."
+          heading="Aucune livraison enregistrée"
+          body="Préparez votre première livraison depuis cette page."
           cta={{
             label: "+ Nouvelle livraison",
             onClick: () => setDialogOpen(true),

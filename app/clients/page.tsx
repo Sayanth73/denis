@@ -56,8 +56,8 @@ export default function ClientsPage() {
       {isEmpty ? (
         <EmptyState
           icon={Users}
-          heading="Aucun client"
-          body="Ajoutez votre premier client pour suivre les livraisons."
+          heading="Aucun client enregistré"
+          body="Ajoutez votre premier client restaurant."
           cta={{ label: "+ Nouveau client", onClick: openCreate, icon: Plus }}
         />
       ) : (
