@@ -5,6 +5,7 @@ import { Plus, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
 import { DeliveriesTable } from "@/components/livraisons/deliveries-table";
+import { NewDeliveryDialog } from "@/components/livraisons/new-delivery-dialog";
 import { useTraceabilityStore } from "@/lib/store";
 
 export default function LivraisonsPage() {
@@ -59,8 +60,7 @@ export default function LivraisonsPage() {
         />
       )}
 
-      {/* Wave 3 (05-03-PLAN.md) mounts <NewDeliveryDialog> here */}
-      {dialogOpen && null}
+      <NewDeliveryDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </>
   );
 }
