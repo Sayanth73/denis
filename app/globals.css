@@ -57,6 +57,11 @@
 /* ── Print isolation (Phase 7 — Traçabilité PDF export) ── */
 /* Locked: 07-CONTEXT.md §Locked decisions */
 @media print {
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
+
   body * {
     visibility: hidden;
   }
@@ -69,5 +74,17 @@
     top: 0;
     left: 0;
     width: 100%;
+  }
+
+  /* Ensure borders and backgrounds render in print */
+  .print-target table,
+  .print-target th,
+  .print-target td {
+    border-color: #e4e4e7 !important;
+  }
+  .print-target .bg-zinc-50 {
+    background-color: #f4f4f5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }

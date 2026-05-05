@@ -1,4 +1,4 @@
-import { Home, Package, Factory, Truck, Users, Search, Boxes, Receipt, type LucideProps } from "lucide-react";
+import { Home, Package, Factory, Truck, Users, Search, Boxes, Receipt, Settings, type LucideProps } from "lucide-react";
 import type { ComponentType } from "react";
 import type { NavIconName } from "@/lib/nav";
 
@@ -11,4 +11,5 @@ export const NAV_ICONS: Record<NavIconName, ComponentType<LucideProps>> = {
   Search,
   Boxes,
   Receipt,
+  Settings,
 };

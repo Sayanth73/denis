@@ -31,6 +31,7 @@ import { DlcBadge } from "@/components/dlc-badge";
 import { useTraceabilityStore } from "@/lib/store";
 import { getInStockBroches } from "@/lib/deliveries";
 import { getRecipeForBroche } from "@/lib/finished-products";
+import { buildFacture } from "@/lib/facture-builder";
 import type { Delivery } from "@/lib/types";
 
 function todayIso(): string {
@@ -86,10 +87,6 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
   }
 
   function onSubmit(values: FormValues) {
-    const customer = customers.find((c) => c.id === values.customerId);
-    const clientName = customer?.nom ?? "";
-    const N = values.brochesLivrees.length;
-
     const delivery: Delivery = {
       id: crypto.randomUUID(),
       date: values.dateLivraison,
@@ -99,8 +96,23 @@ export function NewDeliveryDialog({ open, onOpenChange }: NewDeliveryDialogProps
       notes: values.notes?.trim() || undefined,
     };
 
-    useTraceabilityStore.getState().addDelivery(delivery);
-    toast.success(`Livraison préparée — ${N} broche(s) pour ${clientName}`);
+    const store = useTraceabilityStore.getState();
+    store.addDelivery(delivery);
+
+    const customer = store.customers.find((c) => c.id === delivery.customerId)!;
+    const facture = buildFacture(
+      delivery.id,
+      delivery.customerId,
+      values.brochesLivrees,
+      finishedProducts,
+      productionOrders,
+      recipes,
+      customer,
+      store.factures.length,
+    );
+    store.addFacture(facture);
+
+    toast.success(`Livraison préparée — Facture ${facture.numeroFacture} générée`);
     form.reset(freshDefaults());
     onOpenChange(false);
   }

@@ -11,7 +11,8 @@ export type NavIconName =
   | "Users"
   | "Search"
   | "Boxes"
-  | "Receipt";
+  | "Receipt"
+  | "Settings";
 
 export type NavItem = {
   label: string;
@@ -28,6 +29,7 @@ export const NAV_ITEMS = [
   { label: "Factures", route: "/factures", iconName: "Receipt" },
   { label: "Clients", route: "/clients", iconName: "Users" },
   { label: "Traçabilité", route: "/tracabilite", iconName: "Search" },
+  { label: "Paramètres", route: "/parametres", iconName: "Settings" },
 ] as const satisfies readonly NavItem[];
 
 export const NAV_LABELS: Record<string, string> = Object.fromEntries(

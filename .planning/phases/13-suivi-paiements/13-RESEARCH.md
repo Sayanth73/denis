@@ -684,17 +684,17 @@ A3 is verified (not actually assumed) — seed returns `factures: []`. Included 
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **KpiCard subLabel colour for "Toutes à jour"**
    - What we know: D-14 says sub-label should be green when count is 0. Current `KpiCard` types `subLabel` as `string`, rendering as `text-muted-foreground`.
    - What's unclear: Is the green colour strictly required for the demo, or is muted-foreground acceptable?
-   - Recommendation: Accept muted-foreground for "Toutes à jour" (consistent with all other KPI cards). Use the `alert` prop only for the red badge when `enRetardCount > 0`. This avoids a KpiCard API change.
+   - RESOLVED: Accept muted-foreground for "Toutes à jour" (consistent with all other KPI cards). Use the `alert` prop only for the red badge when `enRetardCount > 0`. This avoids a KpiCard API change.
 
 2. **Seed factures after reset**
    - What we know: `buildSeed()` returns `factures: []`. After `resetToSeed()`, no factures exist.
    - What's unclear: Should the seed include a pre-paid or in-progress facture to demo the payment flow immediately?
-   - Recommendation: Out of scope for this phase — the CONTEXT.md does not mention seed changes. A user can trigger the flow by marking a delivery as livré which auto-creates a facture.
+   - RESOLVED: Out of scope for this phase — the CONTEXT.md does not mention seed changes. A user can trigger the flow by marking a delivery as livré which auto-creates a facture.
 
 ---
 
