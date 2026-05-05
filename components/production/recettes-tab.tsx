@@ -122,22 +122,26 @@ export function RecettesTab() {
                   </div>
                 </div>
               </div>
-              <div className="border-t border-border my-3" />
-              <div className="space-y-1.5">
-                {recipe.composition.map((ing) => (
-                  <div
-                    key={ing.typeMatiere}
-                    className="flex items-center justify-between"
-                  >
-                    <span className="text-sm text-foreground">
-                      {TYPE_LABELS[ing.typeMatiere]}
-                    </span>
-                    <span className="text-sm text-muted-foreground tabular-nums">
-                      {ing.pourcentage} %
-                    </span>
+              {recipe.composition.length > 0 && (
+                <>
+                  <div className="border-t border-border my-3" />
+                  <div className="space-y-1.5">
+                    {recipe.composition.map((ing) => (
+                      <div
+                        key={ing.typeMatiere}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="text-sm text-foreground">
+                          {TYPE_LABELS[ing.typeMatiere]}
+                        </span>
+                        <span className="text-sm text-muted-foreground tabular-nums">
+                          {ing.pourcentage} %
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
             </div>
           ))}
         </div>

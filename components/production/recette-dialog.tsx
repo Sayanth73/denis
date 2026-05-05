@@ -31,8 +31,10 @@ export const recipeSchema = z.object({
   prixParDefautHT: z
     .string()
     .min(1, "Le prix est requis.")
-    .refine((v) => !Number.isNaN(parseFloat(v)), "Le prix doit être un nombre.")
-    .refine((v) => parseFloat(v) > 0, "Le prix doit être un nombre positif."),
+    .refine(
+      (v) => { const n = parseFloat(v); return !Number.isNaN(n) && Number.isFinite(n) && n > 0; },
+      "Le prix doit être un nombre positif.",
+    ),
 });
 export type RecipeFormValues = z.infer<typeof recipeSchema>;
 

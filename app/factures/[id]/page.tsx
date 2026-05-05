@@ -44,6 +44,9 @@ export default function FactureDetailPage() {
   const f = facture; // capture narrowed type after null guard
   const client = customers.find((c) => c.id === f.clientId);
   const tvaAmount = f.totalHT * f.tva;
+  const echeanceDate = new Date(f.dateFacture);
+  echeanceDate.setDate(echeanceDate.getDate() + settings.delaiPaiementJours);
+  const echeancePaiement = echeanceDate.toISOString().slice(0, 10);
 
   function handlePayerLivraison() {
     if (f.paiement.statut !== "en_attente") return;
@@ -81,7 +84,7 @@ export default function FactureDetailPage() {
         </div>
         <Button variant="outline" size="sm" onClick={handlePrint}>
           <FileText size={14} className="mr-1.5" aria-hidden="true" />
-          Imprimer / PDF
+          Exporter PDF
         </Button>
       </div>
 
@@ -189,6 +192,10 @@ export default function FactureDetailPage() {
             <div className="flex justify-between font-semibold border-t border-border pt-1.5 mt-1.5">
               <span>Total TTC</span>
               <span className="tabular-nums">{f.totalTTC.toFixed(2)} CHF</span>
+            </div>
+            <div className="flex justify-between border-t border-border pt-1.5 mt-1.5 text-muted-foreground">
+              <span>Échéance</span>
+              <span>{formatDate(echeancePaiement)}</span>
             </div>
           </div>
         </div>
