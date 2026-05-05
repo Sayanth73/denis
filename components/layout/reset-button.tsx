@@ -25,7 +25,7 @@ export function ResetButton() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2">
+        <Button variant="ghost" className="gap-2 text-sm active:bg-zinc-200">
           <RotateCcw size={16} aria-hidden="true" />
           <span>Réinitialiser démo</span>
         </Button>

@@ -24,13 +24,13 @@ export function NavItem({ label, route, icon: Icon }: NavItemProps) {
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         active
           ? "bg-zinc-100 text-foreground"
-          : "text-muted-foreground hover:bg-zinc-100 hover:text-foreground",
+          : "text-muted-foreground hover:bg-zinc-100 hover:text-foreground active:bg-zinc-200",
       )}
     >
       {active && (
         <span
           aria-hidden="true"
-          className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-full bg-primary"
+          className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary"
         />
       )}
       <Icon size={16} className="shrink-0" />

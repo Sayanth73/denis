@@ -33,7 +33,7 @@
     --accent-foreground: 240 6% 10%;    /* #18181B zinc-900 */
 
     /* UI-SPEC §Color — destructive — red-600 #DC2626 */
-    --destructive: 0 84% 60%;           /* #DC2626 red-600 */
+    --destructive: 0 72% 51%;           /* #DC2626 red-600 */
     --destructive-foreground: 0 0% 100%;
 
     /* UI-SPEC §Color — border / input / ring */
