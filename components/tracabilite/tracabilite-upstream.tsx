@@ -16,6 +16,7 @@ import { DlcBadge } from "@/components/dlc-badge";
 import { TracabiliteSection } from "@/components/ui/tracabilite-section";
 import { TracabilitePrintable } from "@/components/tracabilite/tracabilite-printable";
 import { getProductionOrdersForRm, getClientsImpactes } from "@/lib/tracabilite";
+import { getRecipeForBroche } from "@/lib/finished-products";
 import { TYPE_LABELS, formatDate } from "@/lib/raw-materials";
 import type {
   RawMaterial,
@@ -228,11 +229,17 @@ export function TracabiliteUpstream({
                       </TableCell>
                       <TableCell className="py-2 px-3 text-sm">
                         <div className="flex flex-col gap-0.5">
-                          {broches.map((fp) => (
-                            <span key={fp.id} className="font-mono text-xs">
-                              {fp.numeroLotInterne}
-                            </span>
-                          ))}
+                          {broches.map((fp) => {
+                            const recipe = getRecipeForBroche(fp, productionOrders, recipes);
+                            return (
+                              <span key={fp.id} className="flex items-baseline gap-1.5 text-xs">
+                                <span className="font-mono">{fp.numeroLotInterne}</span>
+                                {recipe && (
+                                  <span className="text-muted-foreground">{recipe.nom}</span>
+                                )}
+                              </span>
+                            );
+                          })}
                         </div>
                       </TableCell>
                     </TableRow>
