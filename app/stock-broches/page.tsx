@@ -129,16 +129,18 @@ function StockBrochesContent() {
           body="Aucune broche en stock — lancez un ordre de fabrication"
         />
       ) : (
-        <StockBrochesTable
-          broches={filtered}
-          productionOrders={productionOrders}
-          recipes={recipes}
-          customers={customers}
-          deliveries={deliveries}
-          sortKey={sortKey}
-          sortDir={sortDir}
-          onSort={handleSort}
-        />
+        <div className="overflow-x-auto rounded-md border">
+          <StockBrochesTable
+            broches={filtered}
+            productionOrders={productionOrders}
+            recipes={recipes}
+            customers={customers}
+            deliveries={deliveries}
+            sortKey={sortKey}
+            sortDir={sortDir}
+            onSort={handleSort}
+          />
+        </div>
       )}
     </div>
   );

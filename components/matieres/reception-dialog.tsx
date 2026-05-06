@@ -113,7 +113,7 @@ export function ReceptionDialog({ open, onOpenChange }: ReceptionDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="mx-4 w-[calc(100%-2rem)] sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Réceptionner un lot</DialogTitle>
           <DialogDescription>Renseignez les informations du lot reçu.</DialogDescription>
